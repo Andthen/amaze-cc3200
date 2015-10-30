@@ -31,15 +31,15 @@ Mode=0
 Graph=0
 Symbiont=0
 Exclusions=
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
 [Disassemble mode]
 mode=0
 [Breakpoints]
 Bp0=_ "STD_CODE" "0x20009180" 0 0 0 0 "" 0 ""
 Count=1
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
 [Aliases]
 Count=0
 SuppressDialog=0
