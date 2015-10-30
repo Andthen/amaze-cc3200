@@ -950,6 +950,9 @@
     <name>$PROJ_DIR$\..\filter.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\..\common\gpio_if.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\..\common\i2c_if.c</name>
   </file>
   <file>
@@ -978,6 +981,9 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\common\startup_ewarm.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\..\common\timer_if.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\common\uart_if.c</name>
