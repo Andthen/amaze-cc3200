@@ -6,6 +6,9 @@
 *.cout
 *.pbi
 
+#IAR files
+ewarm
+
 # Precompiled Headers
 *.gch
 *.pch
