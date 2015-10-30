@@ -71,6 +71,7 @@
 #include "prcm.h"
 #include "i2c_if.h"
 #include "uart_if.h"
+#include "gpio_if.h"
 #include "common.h"
 #include "mpu6050.h"
 #include "pinmux.h"
@@ -121,6 +122,60 @@ extern uVectorEntry __vector_table;
 /*                      LOCAL FUNCTION DEFINITIONS                          */
 /****************************************************************************/
 
+//*****************************************************************************
+//
+// Globals used by the timer interrupt handler.
+//
+//*****************************************************************************
+static volatile unsigned long g_ulSysTickValue;
+static volatile unsigned long g_ulBase;
+static volatile unsigned long g_ulRefBase;
+static volatile unsigned long g_ulRefTimerInts = 0;
+static volatile unsigned long g_ulIntClearVector;
+unsigned long g_ulTimerInts;
+
+//*****************************************************************************
+//
+//! The interrupt handler for the first timer interrupt.
+//!
+//! \param  None
+//!
+//! \return none
+//
+//*****************************************************************************
+void
+TimerBaseIntHandler(void)
+{
+    //
+    // Clear the timer interrupt.
+    //
+    Timer_IF_InterruptClear(g_ulBase);
+
+    g_ulTimerInts ++;
+    GPIO_IF_LedToggle(MCU_GREEN_LED_GPIO);
+}
+
+//*****************************************************************************
+//
+//! The interrupt handler for the second timer interrupt.
+//!
+//! \param  None
+//!
+//! \return none
+//
+//*****************************************************************************
+void
+TimerRefIntHandler(void)
+{
+    //
+    // Clear the timer interrupt.
+    //
+    Timer_IF_InterruptClear(g_ulRefBase);
+
+    g_ulRefTimerInts ++;
+    //GPIO_IF_LedToggle(MCU_RED_LED_GPIO);
+    //imu9Read(&gyro, &acc, &mag);
+}
 //****************************************************************************
 //
 //! Update the dutycycle of the PWM timer
@@ -228,6 +283,38 @@ void InitPWMModules()
     MAP_TimerEnable(TIMERA3_BASE,TIMER_B);
 }
 
+void InitTimer(void)
+{
+    GPIO_IF_LedConfigure(LED1|LED3);
+
+    GPIO_IF_LedOff(MCU_RED_LED_GPIO);
+    GPIO_IF_LedOff(MCU_GREEN_LED_GPIO); 
+    //
+    // Base address for first timer
+    //
+    g_ulBase = TIMERA0_BASE;
+    //
+    // Base address for second timer
+    //
+    g_ulRefBase = TIMERA1_BASE;
+    //
+    // Configuring the timers
+    //
+    Timer_IF_Init(PRCM_TIMERA0, g_ulBase, TIMER_CFG_PERIODIC, TIMER_A, 0);
+    Timer_IF_Init(PRCM_TIMERA1, g_ulRefBase, TIMER_CFG_PERIODIC, TIMER_A, 0);
+
+    //
+    // Setup the interrupts for the timer timeouts.
+    //
+    Timer_IF_IntSetup(g_ulBase, TIMER_A, TimerBaseIntHandler);
+    Timer_IF_IntSetup(g_ulRefBase, TIMER_A, TimerRefIntHandler);
+
+    //
+    // Turn on the timers feeding values in mSec
+    //
+    Timer_IF_Start(g_ulBase, TIMER_A, 500);
+    Timer_IF_Start(g_ulRefBase, TIMER_A, 2);
+}
 //****************************************************************************
 //
 //! Disables the timer PWMs
@@ -342,8 +429,9 @@ void main()
     //
     // Configure the pinmux settings for the peripherals exercised
     //
-    PinMuxConfig();    
-    
+    PinMuxConfig();  
+    //
+    InitTimer();
     //
     // Initialize the PWMs used for driving the LEDs
     //
@@ -371,9 +459,16 @@ void main()
     }
     while(1)
     {
-      imu9Read(&gyro, &acc, &mag);      
+      imu9Read(&gyro, &acc, &mag);  
+      MAP_UtilsDelay(26666);
       tmpvalue = 1000 * acc.x;
-      UART_PRINT("accx = %d\n\r", tmpvalue);
+      if(g_ulRefTimerInts ++ > 50)
+      {
+        UART_PRINT("accx = %d\n\r", tmpvalue);
+        g_ulRefTimerInts = 0;
+      }
+    }
+    {
       UpdateDutyCycle(TIMERA3_BASE, TIMER_A, (int)abs(tmpvalue)/4);
         //
         // RYB - Update the duty cycle of the corresponding timers.

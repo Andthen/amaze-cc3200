@@ -52,6 +52,7 @@
 #include "prcm.h"
 
 //*****************************************************************************
+#define TIMER
 void
 PinMuxConfig(void)
 {
@@ -62,7 +63,7 @@ PinMuxConfig(void)
     MAP_PRCMPeripheralClkEnable(PRCM_TIMERA2, PRCM_RUN_MODE_CLK);
     MAP_PRCMPeripheralClkEnable(PRCM_TIMERA3, PRCM_RUN_MODE_CLK);
     MAP_PRCMPeripheralClkEnable(PRCM_I2CA0, PRCM_RUN_MODE_CLK);
-    
+
     //
     // Configure PIN_55 for UART0 UART0_TX
     //
@@ -73,6 +74,26 @@ PinMuxConfig(void)
     //
     MAP_PinTypeUART(PIN_57, PIN_MODE_3);
     
+    
+    #ifdef TIMER
+    MAP_PRCMPeripheralClkEnable(PRCM_GPIOA1, PRCM_RUN_MODE_CLK);
+    //
+    // Enable Peripheral Clocks 
+    //
+    MAP_PRCMPeripheralClkEnable(PRCM_GPIOA1, PRCM_RUN_MODE_CLK);
+
+    //
+    // Configure PIN_64 for GPIOOutput
+    //
+    MAP_PinTypeGPIO(PIN_64, PIN_MODE_0, false);
+    MAP_GPIODirModeSet(GPIOA1_BASE, 0x2, GPIO_DIR_MODE_OUT);
+
+    //
+    // Configure PIN_2 for GPIOOutput
+    //
+    MAP_PinTypeGPIO(PIN_02, PIN_MODE_0, false);
+    MAP_GPIODirModeSet(GPIOA1_BASE, 0x8, GPIO_DIR_MODE_OUT);
+    #else
     //
     // Configure PIN_64 for TIMERPWM5 GT_PWM05
     //
@@ -87,6 +108,9 @@ PinMuxConfig(void)
     // Configure PIN_02 for TIMERPWM7 GT_PWM07
     //
     MAP_PinTypeTimer(PIN_02, PIN_MODE_3);
+    #endif
+    
+    
     
     //
     // Configure PIN_03 for I2C0 I2C_SCL
