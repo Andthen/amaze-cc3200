@@ -971,6 +971,9 @@
     <name>$PROJ_DIR$\..\pinmux.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\README.md</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\stabilizer.c</name>
   </file>
   <file>
