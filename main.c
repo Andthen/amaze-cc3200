@@ -468,6 +468,8 @@ void main()
         g_ulRefTimerInts = 0;
       }
     }
+    
+    //never run to this location
     {
       UpdateDutyCycle(TIMERA3_BASE, TIMER_A, (int)abs(tmpvalue)/4);
         //
