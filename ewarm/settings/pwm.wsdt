@@ -2,183 +2,65 @@
 
 <Workspace>
   <ConfigDictionary>
-    <CurrentConfigs>
-      <Project>pwm/Release</Project>
-    </CurrentConfigs>
-  </ConfigDictionary>
+    
+  <CurrentConfigs><Project>pwm/Release</Project></CurrentConfigs></ConfigDictionary>
   <Desktop>
     <Static>
       <Workspace>
         <ColumnWidths>
-          <Column0>107</Column0>
-          <Column1>27</Column1>
-          <Column2>27</Column2>
-          <Column3>27</Column3>
-        </ColumnWidths>
+          
+          
+          
+          
+        <Column0>124</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <Build>
-        <ColumnWidth0>20</ColumnWidth0>
-        <ColumnWidth1>980</ColumnWidth1>
-        <ColumnWidth2>261</ColumnWidth2>
-        <ColumnWidth3>65</ColumnWidth3>
-      </Build>
-      <Debug-Log>
-        <ColumnWidth0>20</ColumnWidth0>
-        <ColumnWidth1>1307</ColumnWidth1>
-      </Debug-Log>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>947</ColumnWidth1><ColumnWidth2>252</ColumnWidth2><ColumnWidth3>63</ColumnWidth3></Build>
+      <TerminalIO/>
     </Static>
     <Windows>
-<<<<<<< HEAD
       
       
-    <Wnd2>
-=======
-      <Wnd0>
->>>>>>> 6be1e1055c398cc95713824a0e103b56028b3163
+    <Wnd0>
         <Tabs>
           <Tab>
-            <Identity>TabID-23055-24552</Identity>
+            <Identity>TabID-13060-29447</Identity>
             <TabName>Workspace</TabName>
             <Factory>Workspace</Factory>
             <Session>
-              <NodeDict>
-                <ExpandedNode>pwm</ExpandedNode>
-              </NodeDict>
-            </Session>
+              
+            <NodeDict><ExpandedNode>pwm</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
-<<<<<<< HEAD
         
-      <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
-=======
-        <SelectedTab>0</SelectedTab>
-      </Wnd0>
-      <Wnd1>
->>>>>>> 6be1e1055c398cc95713824a0e103b56028b3163
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
         <Tabs>
           <Tab>
-            <Identity>TabID-7602-24637</Identity>
+            <Identity>TabID-17535-29568</Identity>
             <TabName>Build</TabName>
             <Factory>Build</Factory>
             <Session/>
           </Tab>
-          <Tab>
-            <Identity>TabID-6556-24656</Identity>
-            <TabName>Debug Log</TabName>
-            <Factory>Debug-Log</Factory>
-            <Session/>
-          </Tab>
-<<<<<<< HEAD
-        <Tab><Identity>TabID-10231-24546</Identity><TabName>Ambiguous Definitions</TabName><Factory>Select-Ambiguous-Definitions</Factory><Session/></Tab><Tab><Identity>TabID-1286-27887</Identity><TabName>Find in Files</TabName><Factory>Find-in-Files</Factory><Session/></Tab></Tabs>
-        
-      <SelectedTab>0</SelectedTab></Wnd3></Windows>
-    <Editor>
-      
-      
-      
-      
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>450</YPos2><SelStart2>14408</SelStart2><SelEnd2>14408</SelEnd2></Tab><ActiveTab>0</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
-    <Positions>
-      
-      
-      
-      
-      
-    <Top><Row0><Sizes><Toolbar-00E789E8><key>iaridepm.enu1</key></Toolbar-00E789E8></Sizes></Row0><Row1><Sizes/></Row1><Row2><Sizes/></Row2></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>458</Bottom><Right>256</Right><x>-2</x><y>-2</y><xscreen>167</xscreen><yscreen>169</yscreen><sizeHorzCX>126324</sizeHorzCX><sizeHorzCY>252239</sizeHorzCY><sizeVertCX>195159</sizeVertCX><sizeVertCY>686567</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>167</Bottom><Right>1324</Right><x>-2</x><y>-2</y><xscreen>1326</xscreen><yscreen>169</yscreen><sizeHorzCX>1003026</sizeHorzCX><sizeHorzCY>252239</sizeHorzCY><sizeVertCX>126324</sizeVertCX><sizeVertCY>252239</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
-=======
         </Tabs>
-        <SelectedTab>0</SelectedTab>
-      </Wnd1>
-    </Windows>
+        
+      <SelectedTab>0</SelectedTab></Wnd1></Windows>
     <Editor>
-      <Pane>
-        <Tab>
-          <Factory>TextEditor</Factory>
-          <Filename>$WS_DIR$\..\main.c</Filename>
-          <XPos>0</XPos>
-          <YPos>0</YPos>
-          <SelStart>0</SelStart>
-          <SelEnd>0</SelEnd>
-          <XPos2>0</XPos2>
-          <YPos2>444</YPos2>
-          <SelStart2>14510</SelStart2>
-          <SelEnd2>14510</SelEnd2>
-        </Tab>
-        <ActiveTab>0</ActiveTab>
-      </Pane>
-      <ActivePane>0</ActivePane>
-      <Sizes>
-        <Pane>
-          <X>1000000</X>
-          <Y>1000000</Y>
-        </Pane>
-      </Sizes>
-      <SplitMode>1</SplitMode>
-    </Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>455</YPos2><SelStart2>14655</SelStart2><SelEnd2>14655</SelEnd2></Tab><ActiveTab>0</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
-      <Top>
-        <Row0>
-          <Sizes>
-            <Toolbar-00EC8E80>
-              <key>iaridepm.enu1</key>
-            </Toolbar-00EC8E80>
-          </Sizes>
-        </Row0>
-      </Top>
-      <Left>
-        <Row0>
-          <Sizes>
-            <Wnd0>
-              <Rect>
-                <Top>-2</Top>
-                <Left>-2</Left>
-                <Bottom>316</Bottom>
-                <Right>198</Right>
-                <x>-2</x>
-                <y>-2</y>
-                <xscreen>200</xscreen>
-                <yscreen>200</yscreen>
-                <sizeHorzCX>202634</sizeHorzCX>
-                <sizeHorzCY>357782</sizeHorzCY>
-                <sizeVertCX>202634</sizeVertCX>
-                <sizeVertCY>568873</sizeVertCY>
-              </Rect>
-            </Wnd0>
-          </Sizes>
-        </Row0>
-      </Left>
-      <Right>
-        <Row0>
-          <Sizes/>
-        </Row0>
-      </Right>
-      <Bottom>
-        <Row0>
-          <Sizes>
-            <Wnd1>
-              <Rect>
-                <Top>-2</Top>
-                <Left>-2</Left>
-                <Bottom>198</Bottom>
-                <Right>989</Right>
-                <x>-2</x>
-                <y>-2</y>
-                <xscreen>991</xscreen>
-                <yscreen>200</yscreen>
-                <sizeHorzCX>1004053</sizeHorzCX>
-                <sizeHorzCY>357782</sizeHorzCY>
-                <sizeVertCX>202634</sizeVertCX>
-                <sizeVertCY>357782</sizeVertCY>
-              </Rect>
-            </Wnd1>
-          </Sizes>
-        </Row0>
-      </Bottom>
-      <Float>
-        <Sizes/>
-      </Float>
-    </Positions>
->>>>>>> 6be1e1055c398cc95713824a0e103b56028b3163
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-01BF1E60><key>iaridepm.enu1</key></Toolbar-01BF1E60></Sizes></Row0></Top><Left><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>427</Bottom><Right>198</Right><x>-2</x><y>-2</y><xscreen>200</xscreen><yscreen>200</yscreen><sizeHorzCX>151286</sizeHorzCX><sizeHorzCY>298507</sizeHorzCY><sizeVertCX>151286</sizeVertCX><sizeVertCY>640299</sizeVertCY></Rect></Wnd0></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>198</Bottom><Right>1324</Right><x>-2</x><y>-2</y><xscreen>1326</xscreen><yscreen>200</yscreen><sizeHorzCX>1003026</sizeHorzCX><sizeHorzCY>298507</sizeHorzCY><sizeVertCX>151286</sizeVertCX><sizeVertCY>298507</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

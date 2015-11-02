@@ -1,20 +1,20 @@
-"C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\pwm_dev\pinmux.c"
+"C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\amaze-cc3200\pinmux.c"
 -std=c99
 -ferror-limit=100
 -I
-C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\pwm_dev\ewarm/../
+C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\amaze-cc3200\ewarm/../
 -I
-C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\pwm_dev\ewarm/../../../driverlib/
+C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\amaze-cc3200\ewarm/../../../driverlib/
 -I
-C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\pwm_dev\ewarm/../../../inc/
+C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\amaze-cc3200\ewarm/../../../inc/
 -I
-C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\pwm_dev\ewarm/../../common
+C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\amaze-cc3200\ewarm/../../common
 -I
 D:\Program Files\IAR Systems\Embedded Workbench 7.0\arm\inc
 -I
 D:\Program Files\IAR Systems\Embedded Workbench 7.0\arm\inc\c
 -I
-C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\pwm_dev
+C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\amaze-cc3200
 -I
 C:\ti\CC3200SDK_1.1.0\cc3200-sdk\driverlib
 -I
@@ -214,8 +214,8 @@ C:\ti\CC3200SDK_1.1.0\cc3200-sdk\example\common
 -D__HAS_LOCATED_DECLARATION__=1
 -D__HAS_LOCATED_WITH_INIT__=1
 -D__IAR_COMPILERBASE__=593922
--D__DATE__="Oct 29 2015"
--D__TIME__="18:59:24"
+-D__DATE__="Nov  2 2015"
+-D__TIME__="18:13:46"
 -D__STDC__=1
 -D__STDC_VERSION__=199901L
 -D__STDC_HOSTED__=1
