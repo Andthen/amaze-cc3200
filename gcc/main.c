@@ -56,7 +56,7 @@
 //****************************************************************************
 
 #include <stdio.h>
-
+#include <stdlib.h>
 // Driverlib includes
 #include "hw_types.h"
 #include "hw_ints.h"
@@ -72,6 +72,7 @@
 #include "i2c_if.h"
 #include "uart_if.h"
 #include "gpio_if.h"
+#include "timer_if.h"
 #include "common.h"
 #include "mpu6050.h"
 #include "pinmux.h"
