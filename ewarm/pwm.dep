@@ -126,6 +126,8 @@
       <file>$PROJ_DIR$\..\pinmux.h</file>
       <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
       <file>$PROJ_DIR$\..\..\common\gpio_if.h</file>
+      <file>$PROJ_DIR$\..\..\..\third_party\FreeRTOS\source\queue.c</file>
+      <file>$PROJ_DIR$\..\..\..\third_party\FreeRTOS\source\portable\IAR\ARM_CM4\port.c</file>
     </outputs>
     <file>
       <name>$PROJ_DIR$\..\filter.c</name>
@@ -303,11 +305,11 @@
       <inputs>
         <tool>
           <name>ICCARM</name>
-          <file> 49 104 101 29 91 33 88 69 118 41 85 40 27 75 86 56 65 81 66 112 116 34 77 108 32 73 117 84 78 119 42 74 68 63 83 48 19 106 96 103</file>
+          <file> 49 104 101 29 91 33 88 69 118 41 85 40 27 75 86 56 65 81 66 112 116 34 77 108 32 73 117 84 78 119 42 74 68 63 83 48 19 106 96 103 111 51 50 46 55 45 114 109</file>
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 49 104 101 29 91 33 88 69 118 41 85 40 27 75 86 56 65 81 66 112 116 34 77 108 32 73 117 84 78 119 42 74 68 63 83 48 19 106 96 103</file>
+          <file> 49 104 101 29 91 33 88 69 118 41 85 40 27 75 86 56 65 81 66 112 116 34 77 108 32 73 117 84 78 119 42 74 68 63 83 48 19 106 96 103 111 51 50 46 55 45 114 109</file>
         </tool>
       </inputs>
     </file>

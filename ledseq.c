@@ -222,6 +222,7 @@ void ledseqStop(led_t led, ledseq_t *sequence)
  */
 static void runLedseq( TimerHandle_t xTimer )
 {
+  extern int state[LED_NUM][SEQ_NUM];
   led_t led = (led_t)pvTimerGetTimerID(xTimer);
   ledseq_t *step;
   bool leave=false;
@@ -233,7 +234,7 @@ static void runLedseq( TimerHandle_t xTimer )
       return;
     
     step = &sequences[prio][state[led][prio]];
-
+    
     state[led][prio]++;
     
     xSemaphoreTake(ledseqSem, portMAX_DELAY);

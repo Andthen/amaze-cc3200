@@ -57,6 +57,7 @@ VPATH+=../../common
 #
 #CFLAGS+=-Dgcc
 CFLAGS+=-DUSE_FREERTOS
+CFLAGS+=-DTIMER1
 #
 # Where to find header files that do not live in the source directory.
 #
@@ -109,6 +110,8 @@ ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/mpu6050.o
 #${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/stabilizer.o
 ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/timer_if.o
 ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/uart_if.o
+${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/led.o
+${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/ledseq.o
 ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/startup_${COMPILER}.o
 ${BINDIR}/amaze-cc3200.axf: ${ROOT}/driverlib/${COMPILER}/${BINDIR}/libdriver.a
 ${BINDIR}/amaze-cc3200.axf: ${ROOT}/oslib/${COMPILER}/${BINDIR}/FreeRTOS.a

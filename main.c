@@ -89,6 +89,8 @@
 #include "ledseq.h"
 //hal interface includes
 #include "imu.h" //zadd 08311708
+
+#include "FreeRTOS.h"
 //*****************************************************************************
 //                      MACRO DEFINITIONS
 //*****************************************************************************
@@ -305,7 +307,8 @@ void vTestTask3( void *pvParameters )
   for( ;; )
   {
     ledseqRun(LED_GREEN, seq_testPassed);
-    ledseqRun(LED_RED, seq_alive);
+//    ledseqRun(LED_RED, seq_testPassed);
+    vTaskDelay(M2T(2000));
   }
   
 }

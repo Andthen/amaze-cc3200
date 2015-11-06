@@ -29,4 +29,10 @@ obj/main.o: ../main.c c:\cygwin\arm-none-eabi\include\stdio.h \
  c:\cygwin\lib\gcc\arm-none-eabi\4.8.4\include\stdint.h \
  c:\cygwin\arm-none-eabi\include\stdint.h \
  c:\cygwin\lib\gcc\arm-none-eabi\4.8.4\include\stdbool.h ../led.h \
- ../ledseq.h ../led.h ../imu.h ../filter.h ../imu_types.h
+ ../ledseq.h ../led.h ../imu.h ../filter.h ../imu_types.h \
+ ../../../third_party/FreeRTOS/source/include/FreeRTOS.h \
+ ../../../third_party/FreeRTOS/source/include/projdefs.h \
+ ../../../third_party/FreeRTOS/source/FreeRTOSConfig.h \
+ ../../../third_party/FreeRTOS/source/include/portable.h \
+ ../../../third_party/FreeRTOS/source/portable/GCC/ARM_CM4/portmacro.h \
+ ../../../third_party/FreeRTOS/source/include/mpu_wrappers.h
