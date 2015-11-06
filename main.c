@@ -249,9 +249,7 @@ void vTestTask1( void *pvParameters )
 		UART_PRINT("message = ");
 		UART_PRINT(pcMessage);
 		UART_PRINT("\n\r");
-                ledSet(LED_RED, true);
 		osi_Sleep(200);
-                ledSet(LED_RED, false);
     }
 }
 
@@ -279,11 +277,8 @@ void vTestTask2( void *pvParameters )
      {
        /* Queue a message for the print task to display on the UART CONSOLE. */
 	   osi_MsgQWrite(&MsgQ, (void*) pcInterruptMessage[ul_2 % 4], OSI_NO_WAIT);
-	   ul_2++;
-           
+	   ul_2++;        
 	   osi_Sleep(200);
-           
-           
      }
 }
 
@@ -306,8 +301,9 @@ void vTestTask3( void *pvParameters )
   ledseqInit();
   for( ;; )
   {
+//    ledseqRun(LED_ORANGE, seq_charging);
+//    ledseqRun(LED_RED, seq_armed);
     ledseqRun(LED_GREEN, seq_testPassed);
-//    ledseqRun(LED_RED, seq_testPassed);
     vTaskDelay(M2T(2000));
   }
   
@@ -343,7 +339,7 @@ TimerBaseIntHandler(void)
     Timer_IF_InterruptClear(g_ulBase);
 
     g_ulTimerInts ++;
-    GPIO_IF_LedToggle(MCU_GREEN_LED_GPIO);
+    GPIO_IF_LedToggle(MCU_ORANGE_LED_GPIO);
 }
 
 //*****************************************************************************
@@ -476,10 +472,6 @@ void InitPWMModules()
 
 void InitTimer(void)
 {
-    GPIO_IF_LedConfigure(LED1|LED3);
-
-    GPIO_IF_LedOff(MCU_RED_LED_GPIO);
-    GPIO_IF_LedOff(MCU_GREEN_LED_GPIO); 
     //
     // Base address for first timer
     //
@@ -503,7 +495,7 @@ void InitTimer(void)
     //
     // Turn on the timers feeding values in mSec
     //
-    Timer_IF_Start(g_ulBase, TIMER_A, 500);
+    Timer_IF_Start(g_ulBase, TIMER_A, 50);
     Timer_IF_Start(g_ulRefBase, TIMER_A, 2);
 }
 //****************************************************************************
@@ -624,7 +616,7 @@ void main()
     
     ledInit();
     //
-//    InitTimer();
+    InitTimer();
     //
     // Initialize the PWMs used for driving the LEDs
     //

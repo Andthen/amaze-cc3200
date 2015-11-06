@@ -76,7 +76,6 @@ PinMuxConfig(void)
     
     
     #ifdef TIMER1
-    MAP_PRCMPeripheralClkEnable(PRCM_GPIOA1, PRCM_RUN_MODE_CLK);
     //
     // Enable Peripheral Clocks 
     //
@@ -88,6 +87,12 @@ PinMuxConfig(void)
     MAP_PinTypeGPIO(PIN_64, PIN_MODE_0, false);
     MAP_GPIODirModeSet(GPIOA1_BASE, 0x2, GPIO_DIR_MODE_OUT);
 
+    //
+    // Configure PIN_1 for GPIOOutput
+    //
+    MAP_PinTypeGPIO(PIN_01, PIN_MODE_0, false);
+    MAP_GPIODirModeSet(GPIOA1_BASE, 0x4, GPIO_DIR_MODE_OUT);
+    
     //
     // Configure PIN_2 for GPIOOutput
     //

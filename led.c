@@ -14,11 +14,13 @@
 
 static bool isInit=false;
 static unsigned int led_pin[] = {
-  [LED_GREEN] = MCU_GREEN_LED_GPIO, 
+  [LED_GREEN] = MCU_GREEN_LED_GPIO,
+  [LED_ORANGE] = MCU_ORANGE_LED_GPIO,
   [LED_RED]   = MCU_RED_LED_GPIO,
 };
 static int led_polarity[] = {
   [LED_GREEN] = LED_POL_GREEN, 
+  [LED_ORANGE] = LED_POL_ORANGE,
   [LED_RED] = LED_POL_RED,
 };
 
