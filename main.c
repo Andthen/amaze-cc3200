@@ -55,7 +55,11 @@
 //
 //****************************************************************************
 
+// Standard includes.
 #include <stdio.h>
+#include <stdlib.h>
+
+#include "osi.h"
 
 // Driverlib includes
 #include "hw_types.h"
@@ -66,22 +70,35 @@
 #include "interrupt.h"
 #include "rom.h"
 #include "rom_map.h"
+#include "uart.h"
 #include "timer.h"
 #include "utils.h"
 #include "prcm.h"
+
+// Common interface includes
+#include "common.h"
+#include "pinmux.h"
 #include "i2c_if.h"
 #include "uart_if.h"
 #include "gpio_if.h"
-#include "common.h"
-#include "mpu6050.h"
-#include "pinmux.h"
-#include "imu.h" //zadd 08311708
+#include "timer_if.h"
 
+//drivers interface includes
+#include "mpu6050.h"
+#include "led.h"
+#include "ledseq.h"
+//hal interface includes
+#include "imu.h" //zadd 08311708
+//*****************************************************************************
+//                      MACRO DEFINITIONS
+//*****************************************************************************
 #define APPLICATION_VERSION     "1.1.1"
 #define DBG_PRINT               Report
-
+#define SPAWN_TASK_PRIORITY     9
+#define OSI_STACK_SIZE          2048
+#define MAX_MSG_LENGTH			16
 #define APPLICATION_VERSION              "1.1.1"
-#define APP_NAME                         "i m u"
+#define APP_NAME                         "cc3200 IMU application"
 
 //
 // The PWM works based on the following settings:
@@ -106,11 +123,17 @@
 //*****************************************************************************
 //                 GLOBAL VARIABLES -- Start
 //*****************************************************************************
-#if defined(ccs)
+// The queue used to send strings to the task1.
+OsiMsgQ_t MsgQ;
+
+#ifndef USE_TIRTOS
+/* in case of TI-RTOS don't include startup_*.c in app project */
+#if defined(gcc) || defined(ccs)
 extern void (* const g_pfnVectors[])(void);
 #endif
 #if defined(ewarm)
 extern uVectorEntry __vector_table;
+#endif
 #endif
 //*****************************************************************************
 //                 GLOBAL VARIABLES -- End
@@ -121,6 +144,171 @@ extern uVectorEntry __vector_table;
 /****************************************************************************/
 /*                      LOCAL FUNCTION DEFINITIONS                          */
 /****************************************************************************/
+static void vTestTask1( void *pvParameters );
+static void vTestTask2( void *pvParameters );
+static void vTestTask3( void *pvParameters );
+static void BoardInit();
+
+#ifdef USE_FREERTOS
+//*****************************************************************************
+// FreeRTOS User Hook Functions enabled in FreeRTOSConfig.h
+//*****************************************************************************
+
+//*****************************************************************************
+//
+//! \brief Application defined hook (or callback) function - assert
+//!
+//! \param[in]  pcFile - Pointer to the File Name
+//! \param[in]  ulLine - Line Number
+//!
+//! \return none
+//!
+//*****************************************************************************
+void
+vAssertCalled( const char *pcFile, unsigned long ulLine )
+{
+    //Handle Assert here
+    while(1)
+    {
+    }
+}
+
+//*****************************************************************************
+//
+//! \brief Application defined idle task hook
+//!
+//! \param  none
+//!
+//! \return none
+//!
+//*****************************************************************************
+void
+vApplicationIdleHook( void)
+{
+    //Handle Idle Hook for Profiling, Power Management etc
+}
+
+//*****************************************************************************
+//
+//! \brief Application defined malloc failed hook
+//!
+//! \param  none
+//!
+//! \return none
+//!
+//*****************************************************************************
+void vApplicationMallocFailedHook()
+{
+    //Handle Memory Allocation Errors
+    while(1)
+    {
+    }
+}
+
+//*****************************************************************************
+//
+//! \brief Application defined stack overflow hook
+//!
+//! \param  none
+//!
+//! \return none
+//!
+//*****************************************************************************
+void vApplicationStackOverflowHook( OsiTaskHandle *pxTask,
+                                   signed char *pcTaskName)
+{
+    //Handle FreeRTOS Stack Overflow
+    while(1)
+    {
+    }
+}
+#endif //USE_FREERTOS
+
+//******************************************************************************
+//
+//! First test task
+//!
+//! \param pvParameters is the parameter passed to the task while creating it.
+//!
+//!    This Function
+//!        1. Receive message from the Queue and display it on the terminal.
+//!
+//! \return none
+//
+//******************************************************************************
+void vTestTask1( void *pvParameters )
+{
+	char pcMessage[MAX_MSG_LENGTH];
+    for( ;; )
+    {
+    	/* Wait for a message to arrive. */
+    	osi_MsgQRead(&MsgQ, pcMessage, OSI_WAIT_FOREVER);
+
+		UART_PRINT("message = ");
+		UART_PRINT(pcMessage);
+		UART_PRINT("\n\r");
+                ledSet(LED_RED, true);
+		osi_Sleep(200);
+                ledSet(LED_RED, false);
+    }
+}
+
+//******************************************************************************
+//
+//! Second test task
+//!
+//! \param pvParameters is the parameter passed to the task while creating it.
+//!
+//!    This Function
+//!        1. Creates a message and send it to the queue.
+//!
+//! \return none
+//
+//******************************************************************************
+void vTestTask2( void *pvParameters )
+{
+   unsigned long ul_2;
+   const char *pcInterruptMessage[4] = {"Welcome","to","CC32xx"
+           ,"development !\n"};
+
+   ul_2 =0;
+
+   for( ;; )
+     {
+       /* Queue a message for the print task to display on the UART CONSOLE. */
+	   osi_MsgQWrite(&MsgQ, (void*) pcInterruptMessage[ul_2 % 4], OSI_NO_WAIT);
+	   ul_2++;
+           
+	   osi_Sleep(200);
+           
+           
+     }
+}
+
+//******************************************************************************
+//
+//! Second test task
+//!
+//! \param pvParameters is the parameter passed to the task while creating it.
+//!
+//!    This Function
+//!        1. Creates a message and send it to the queue.
+//!
+//! \return none
+//
+//******************************************************************************
+
+void vTestTask3( void *pvParameters )
+{
+  
+  ledseqInit();
+  for( ;; )
+  {
+    ledseqRun(LED_GREEN, seq_testPassed);
+    ledseqRun(LED_RED, seq_alive);
+  }
+  
+}
 
 //*****************************************************************************
 //
@@ -375,7 +563,7 @@ BoardInit(void)
   //
   // Set vector table base
   //
-#if defined(ccs)
+#if defined(ccs) || defined(gcc)
     MAP_IntVTableBaseSet((unsigned long)&g_pfnVectors[0]);
 #endif
 #if defined(ewarm)
@@ -390,12 +578,12 @@ BoardInit(void)
 
     PRCMCC3200MCUInit();
 }
-
+/*
 void vTaskDelay( uint32_t xTicksToDelay )
 {
   MAP_UtilsDelay(xTicksToDelay * 13333);
 }
-
+*/
 //****************************************************************************
 //
 //! Demonstrates the controlling of LED brightness using PWM
@@ -430,16 +618,60 @@ void main()
     // Configure the pinmux settings for the peripherals exercised
     //
     PinMuxConfig();  
+    
+    ledInit();
     //
-    InitTimer();
+//    InitTimer();
     //
     // Initialize the PWMs used for driving the LEDs
     //
-    InitPWMModules();
+//    InitPWMModules();
 
     InitTerm();
+   
+    //
+    // Clearing the terminal
+    //
+    ClearTerm();
     
+    //
+    // Diasplay Banner
+    //
     DisplayBanner(APP_NAME);
+    
+    //
+    // Creating a queue for 10 elements.
+    //
+    OsiReturnVal_e osi_retVal;
+    osi_retVal = osi_MsgQCreate(&MsgQ, "MSGQ", MAX_MSG_LENGTH, 10);
+    if(osi_retVal != OSI_OK)
+    {
+    	// Queue was not created and must not be used.
+    	while(1);
+    }
+
+    //
+    // Create the Queue Receive task
+    //
+    osi_TaskCreate( vTestTask1, "TASK1",\
+    							OSI_STACK_SIZE, NULL, 1, NULL );
+
+    //
+    // Create the Queue Send task
+    //
+    osi_TaskCreate( vTestTask2, "TASK2",\
+    							OSI_STACK_SIZE,NULL, 1, NULL );
+    //
+    // Create the Queue Send task
+    //
+    osi_TaskCreate( vTestTask3, "TASK3",\
+    							OSI_STACK_SIZE,NULL, 1, NULL );
+    //
+    // Start the task scheduler
+    //
+    osi_start();
+    
+    
     //
     // I2C Init
     //
@@ -459,8 +691,12 @@ void main()
     }
     while(1)
     {
-      imu9Read(&gyro, &acc, &mag);  
       MAP_UtilsDelay(26666);
+      imu9Read(&gyro, &acc, &mag);
+      if (imu6IsCalibrated())
+      {
+        //commanderGetRPY(&eulerRollDesired, &eulerPitchDesired, &eulerYawDesired);
+      }
       tmpvalue = 1000 * acc.x;
       if(g_ulRefTimerInts ++ > 50)
       {

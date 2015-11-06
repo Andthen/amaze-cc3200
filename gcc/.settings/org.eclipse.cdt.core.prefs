@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+environment/project/0.202417530/PATH/delimiter=;
+environment/project/0.202417530/PATH/operation=replace
+environment/project/0.202417530/PATH/value=C\:\\Program Files\\GNU Tools ARM Embedded\\4.8 2014q3\\bin;C\:\\Program Files\\GNU Tools ARM Embedded\\4.8 2014q3\\arm-none-eabi\\bin;C\:\\MinGW\\msys\\1.0\\bin;C\:\\Python27
+environment/project/0.202417530/append=true
+environment/project/0.202417530/appendContributed=true

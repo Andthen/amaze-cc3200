@@ -173,6 +173,8 @@
         <option>
           <name>CCDefines</name>
           <state>ewarm</state>
+          <state>USE_FREERTOS</state>
+          <state>TIMER1</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -301,10 +303,18 @@
         </option>
         <option>
           <name>CCIncludePath2</name>
+          <state>$PROJ_DIR$</state>
           <state>$PROJ_DIR$/../</state>
           <state>$PROJ_DIR$/../../../driverlib/</state>
           <state>$PROJ_DIR$/../../../inc/</state>
           <state>$PROJ_DIR$/../../common</state>
+          <state>$PROJ_DIR$/../../../oslib/</state>
+          <state>$PROJ_DIR$/../../../third_party/FreeRTOS/source/</state>
+          <state>$PROJ_DIR$/../../../third_party/FreeRTOS/source/include/</state>
+          <state>$PROJ_DIR$/../../../third_party/FreeRTOS/source/portable/IAR/ARM_CM4/</state>
+          <state>$PROJ_DIR$/../../../simplelink/</state>
+          <state>$PROJ_DIR$/../../../simplelink/source</state>
+          <state>$PROJ_DIR$/../../../simplelink/include</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -542,7 +552,7 @@
         </option>
         <option>
           <name>AOutputFile</name>
-          <state></state>
+          <state>$FILE_BNAME$.o</state>
         </option>
         <option>
           <name>AMultibyteSupport</name>
@@ -763,6 +773,7 @@
         <option>
           <name>IlinkAdditionalLibs</name>
           <state>$PROJ_DIR$/../../../driverlib/ewarm/Release/Exe/driverlib.a</state>
+          <state>$PROJ_DIR$/../../../oslib/ewarm/free_rtos/Exe/free_rtos.a</state>
         </option>
         <option>
           <name>IlinkOverrideProgramEntryLabel</name>
@@ -965,6 +976,12 @@
     <name>$PROJ_DIR$\..\kalman.hpp</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\led.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\ledseq.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\main.c</name>
   </file>
   <file>
@@ -977,10 +994,10 @@
     <name>$PROJ_DIR$\..\README.md</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\..\stabilizer.c</name>
+    <name>$PROJ_DIR$\..\..\common\startup_ewarm.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\..\..\common\startup_ewarm.c</name>
+    <name>$PROJ_DIR$\..\system.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\common\timer_if.c</name>

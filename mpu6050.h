@@ -426,7 +426,7 @@ THE SOFTWARE.
 
 // note: DMP code memory blocks defined at end of header file
 
-void vTaskDelay( uint32_t xTicksToDelay);
+//void vTaskDelay( uint32_t xTicksToDelay);
 void mpu6050Init(I2C_TypeDef *i2cPort);
 bool mpu6050Test(void);
 

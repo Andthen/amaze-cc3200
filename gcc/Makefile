@@ -35,7 +35,6 @@
 #
 #*****************************************************************************
 
-
 #
 # The base directory for TivaWare.
 #
@@ -50,16 +49,28 @@ include ${ROOT}/tools/gcc_scripts/makedefs
 # Where to find source files that do not live in this directory.
 #
 VPATH=../
+VPATH+=../../drivers
 VPATH+=../../common
 
+#
+# Additional Compiler Flags
+#
+#CFLAGS+=-Dgcc
+CFLAGS+=-DUSE_FREERTOS
 #
 # Where to find header files that do not live in the source directory.
 #
 IPATH=..
 IPATH+=../..
 IPATH+=../../../inc
-IPATH+=../../../driverlib
 IPATH+=../../common
+IPATH+=../../../oslib
+IPATH+=../../../driverlib
+IPATH+=../../../third_party/FreeRTOS
+IPATH+=../../../third_party/FreeRTOS/source
+IPATH+=../../../third_party/FreeRTOS/source/portable/GCC/ARM_CM4
+IPATH+=../../../third_party/FreeRTOS/source/include
+
 
 #
 # The default rule, which causes the driver library to be built.
@@ -95,11 +106,12 @@ ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/i2c_if.o
 ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/i2cdev.o
 ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/imu.o
 ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/mpu6050.o
-${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/stabilizer.o
+#${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/stabilizer.o
 ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/timer_if.o
 ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/uart_if.o
 ${BINDIR}/amaze-cc3200.axf: ${OBJDIR}/startup_${COMPILER}.o
 ${BINDIR}/amaze-cc3200.axf: ${ROOT}/driverlib/${COMPILER}/${BINDIR}/libdriver.a
+${BINDIR}/amaze-cc3200.axf: ${ROOT}/oslib/${COMPILER}/${BINDIR}/FreeRTOS.a
 SCATTERgcc_amaze-cc3200=amaze-cc3200.ld
 ENTRY_amaze-cc3200=ResetISR
 

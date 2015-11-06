@@ -105,6 +105,12 @@
     <name>$PROJ_DIR$\..\kalman.hpp</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\led.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\ledseq.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\main.c</name>
   </file>
   <file>
@@ -117,10 +123,10 @@
     <name>$PROJ_DIR$\..\README.md</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\..\stabilizer.c</name>
+    <name>$PROJ_DIR$\..\..\common\startup_ewarm.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\..\..\common\startup_ewarm.c</name>
+    <name>$PROJ_DIR$\..\system.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\common\timer_if.c</name>

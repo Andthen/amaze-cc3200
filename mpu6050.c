@@ -1,3 +1,6 @@
+#define DEBUG_MODULE "MPU6050"
+#include "FreeRTOS.h"
+#include "task.h"
 #include "mpu6050.h"
 #include "i2cdev.h"
 

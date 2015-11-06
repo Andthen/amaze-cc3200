@@ -2,8 +2,8 @@
 
 #include <math.h>
 //#include "stm32f10x_conf.h"
-//#include "FreeRTOS.h"
-//#include "task.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 //#include "debug.h"
 //#include "configblock.h"
@@ -15,7 +15,7 @@
 //#include "ms5611.h"
 //#include "ledseq.h"
 //#include "uart.h"
-//#include "param.h"
+#include "param.h"
 //#include "log.h"
 
 #define IMU_ENABLE_MAG_HMC5883_del
@@ -94,8 +94,9 @@ static void imuAccIIRLPFilter(Axis3i16* in, Axis3i16* out,
 static void imuAccAlignToGravity(Axis3i16* in, Axis3i16* out);
 
 // TODO: Fix __errno linker error with math lib
-//int __attribute__((used)) __errno;
-
+#if defined(gcc)
+int __attribute__((used)) __errno;
+#endif
 static bool isInit;
 
 void imu6Init(void)
@@ -364,7 +365,7 @@ static void imuCalculateVarianceAndMean(BiasObj* bias, Axis3i32* varOut, Axis3i3
 /**
  * Calculates the mean for the bias buffer.
  */
-/*
+#if defined(gcc)
 static void __attribute__((used)) imuCalculateBiasMean(BiasObj* bias, Axis3i32* meanOut)
 {
   uint32_t i;
@@ -382,7 +383,7 @@ static void __attribute__((used)) imuCalculateBiasMean(BiasObj* bias, Axis3i32* 
   meanOut->z = sum[2] / IMU_NBR_OF_BIAS_SAMPLES;
 
 }
-*/
+#endif
 
 /**
  * Adds a new value to the variance buffer and if it is full
@@ -472,7 +473,8 @@ static void imuAccAlignToGravity(Axis3i16* in, Axis3i16* out)
   out->y = ry.y;
   out->z = ry.z;
 }
-/*
+
+#if defined(gcc) 
 PARAM_GROUP_START(imu_acc_lpf)
 PARAM_ADD(PARAM_UINT8, factor, &imuAccLpfAttFactor)
 PARAM_GROUP_STOP(imu_acc_lpf)
@@ -487,4 +489,4 @@ PARAM_ADD(PARAM_UINT8 | PARAM_RONLY, MPU6050, &isMpu6050TestPassed)
 PARAM_ADD(PARAM_UINT8 | PARAM_RONLY, HMC5883L, &isHmc5883lTestPassed)
 PARAM_ADD(PARAM_UINT8 | PARAM_RONLY, MS5611, &isMs5611TestPassed)
 PARAM_GROUP_STOP(imu_tests)
-*/
+#endif

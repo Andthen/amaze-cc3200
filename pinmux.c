@@ -52,7 +52,6 @@
 #include "prcm.h"
 
 //*****************************************************************************
-#define TIMER
 void
 PinMuxConfig(void)
 {
@@ -75,7 +74,7 @@ PinMuxConfig(void)
     MAP_PinTypeUART(PIN_57, PIN_MODE_3);
     
     
-    #ifdef TIMER
+    #ifdef TIMER1
     MAP_PRCMPeripheralClkEnable(PRCM_GPIOA1, PRCM_RUN_MODE_CLK);
     //
     // Enable Peripheral Clocks 
