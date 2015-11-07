@@ -1,5 +1,6 @@
 ﻿# Object files
 *.o
+*.d
 *.ko
 *.obj
 *.elf
@@ -31,7 +32,9 @@ ewarm
 *.app
 *.i*86
 *.x86_64
-#*.hex
+*.hex
+*.axf
+*.bin
 
 # Debug files
 *.dSYM/
