@@ -24,8 +24,9 @@
  *
  */
 //#include "stm32f10x_conf.h"
-//#include "FreeRTOS.h"
-//#include "task.h"
+#include "hw_types.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 #include "math.h"
 
@@ -33,13 +34,13 @@
 //#include "pm.h"
 #include "stabilizer.h"
 #include "commander.h"
-//#include "controller.h"
-//#include "sensfusion6.h"
+#include "controller.h"
+#include "sensfusion6.h"
 #include "imu.h"
-//#include "motors.h"
+#include "motors.h"
 //#include "log.h"
-//#include "pid.h"
-//#include "ledseq.h"
+#include "pid.h"
+#include "ledseq.h"
 #include "param.h"
 //#include "ms5611.h"
 

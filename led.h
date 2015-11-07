@@ -17,9 +17,11 @@
 //#define LED_GPIO_RED     GPIO_Pin_4
 #define LED_POL_RED      LED_POL_POS
 
-#define LED_NUM 2
+#define LED_POL_ORANGE LED_POL_POS
 
-typedef enum {LED_RED=0, LED_GREEN} led_t;
+#define LED_NUM 3
+
+typedef enum {LED_RED=0, LED_GREEN, LED_ORANGE=2} led_t;
 
 void ledInit();
 bool ledTest();
@@ -32,5 +34,6 @@ void ledTask(void *param);
 //Legacy functions
 #define ledSetRed(VALUE) ledSet(LED_RED, VALUE)
 #define ledSetGreen(VALUE) ledSet(LED_GREEN, VALUE)
+#define ledSetOrange(VALUE) ledSet(LED_ORANGE, VALUE)
 
 #endif

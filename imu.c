@@ -367,6 +367,8 @@ static void imuCalculateVarianceAndMean(BiasObj* bias, Axis3i32* varOut, Axis3i3
  */
 #if defined(gcc)
 static void __attribute__((used)) imuCalculateBiasMean(BiasObj* bias, Axis3i32* meanOut)
+#else
+static void imuCalculateBiasMean(BiasObj* bias, Axis3i32* meanOut)
 {
   uint32_t i;
   int32_t sum[GYRO_NBR_OF_AXES] = {0};

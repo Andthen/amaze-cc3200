@@ -985,6 +985,9 @@
     <name>$PROJ_DIR$\..\main.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\motors.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\mpu6050.c</name>
   </file>
   <file>
@@ -992,6 +995,12 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\README.md</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\sensfusion6.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\stabilizer.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\common\startup_ewarm.c</name>
