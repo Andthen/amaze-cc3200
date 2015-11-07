@@ -60,11 +60,18 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+/* Personal configs */
+#include "FreeRTOSConfig.h"
 
 //freertos interface includes
 #include "FreeRTOS.h"
 #include "task.h"
 #include "osi.h"
+
+/* Project includes */
+#include "config.h"
+#include "system.h"
+#include "led.h"
 
 // Driverlib includes
 #include "hw_types.h"

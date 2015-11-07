@@ -175,6 +175,7 @@
           <state>ewarm</state>
           <state>USE_FREERTOS</state>
           <state>TIMER1</state>
+          <state>USE_UART_CRTP</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
