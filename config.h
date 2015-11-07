@@ -58,7 +58,7 @@
 
 //The radio channel. From 0 to 125
 #define RADIO_CHANEL 10
-#define RADIO_DATARATE RADIO_RATE_250K
+#define RADIO_DATARATE 0//RADIO_RATE_250K
 
 #define ACTIVATE_AUTO_SHUTDOWN
 

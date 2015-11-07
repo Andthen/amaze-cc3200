@@ -6,7 +6,7 @@
 #include "task.h"
 
 //#include "debug.h"
-//#include "configblock.h"
+#include "configblock.h"
 //#include "cfassert.h"
 #include "imu.h"
 #include "i2cdev.h"

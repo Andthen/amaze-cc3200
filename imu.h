@@ -30,12 +30,13 @@
 #include "filter.h"
 #include "imu_types.h"
 
+/*
 #define configblockGetCalibPitch() 1 //zadd 08311654
 #define configblockGetCalibRoll() 1 //zadd 08311655
 #define xTaskGetTickCount()  1000//zadd 08311701
 #define M_PI	3.14159265358979323846
-
-
+*/
+#define M_PI		3.14159265358979323846
 /**
  * IMU update frequency dictates the overall update frequency.
  */

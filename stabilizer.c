@@ -24,13 +24,12 @@
  *
  */
 //#include "stm32f10x_conf.h"
-#include "hw_types.h"
+   
 #include "FreeRTOS.h"
 #include "task.h"
 
 #include "math.h"
-
-//#include "system.h"
+#include "system.h"
 //#include "pm.h"
 #include "stabilizer.h"
 #include "commander.h"
@@ -43,6 +42,15 @@
 #include "ledseq.h"
 #include "param.h"
 //#include "ms5611.h"
+
+//
+#ifndef TRUE
+#define TRUE true
+#endif
+
+#ifndef FALSE
+#define FALSE false
+#endif
 
 #undef max
 #define max(a,b) ((a) > (b) ? (a) : (b))
@@ -179,7 +187,7 @@ static void stabilizerTask(void* param)
   uint32_t altHoldCounter = 0;
   uint32_t lastWakeTime;
 
-  vTaskSetApplicationTaskTag(0, (void*)TASK_STABILIZER_ID_NBR);
+  vTaskSetApplicationTaskTag(0,(void*)TASK_STABILIZER_ID_NBR);
 
   //Wait for the system to be fully started to start stabilization loop
   systemWaitStart();

@@ -56,9 +56,14 @@
 //****************************************************************************
 
 // Standard includes.
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
+
+//freertos interface includes
+#include "FreeRTOS.h"
+#include "task.h"
 #include "osi.h"
 
 // Driverlib includes
@@ -90,9 +95,6 @@
 //hal interface includes
 #include "imu.h" //zadd 08311708
 
-//freertos interface includes
-#include "FreeRTOS.h"
-//#include "task.h"
 //*****************************************************************************
 //                      MACRO DEFINITIONS
 //*****************************************************************************
@@ -186,12 +188,13 @@ vAssertCalled( const char *pcFile, unsigned long ulLine )
 //! \return none
 //!
 //*****************************************************************************
+/*
 void
 vApplicationIdleHook( void)
 {
     //Handle Idle Hook for Profiling, Power Management etc
 }
-
+*/
 //*****************************************************************************
 //
 //! \brief Application defined malloc failed hook
@@ -306,8 +309,8 @@ void vTestTask3( void *pvParameters )
 //    ledseqRun(LED_ORANGE, seq_charging);
 //    ledseqRun(LED_RED, seq_armed);
     ledseqRun(LED_GREEN, seq_testPassed);
-//    vTaskDelay(M2T(2000));
-    osi_Sleep(2000);
+    vTaskDelay(M2T(2000));
+//    osi_Sleep(2000);
   }
   
 }

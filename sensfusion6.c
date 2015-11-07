@@ -31,6 +31,15 @@
 #include "imu.h"
 #include "param.h"
 
+//
+#ifndef TRUE
+#define TRUE true
+#endif
+
+#ifndef FALSE
+#define FALSE false
+#endif
+
 //#define MADWICK_QUATERNION_IMU
 
 #ifdef MADWICK_QUATERNION_IMU
