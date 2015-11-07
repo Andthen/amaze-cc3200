@@ -146,6 +146,9 @@
   <file>
     <name>$PROJ_DIR$\..\..\common\uart_if.c</name>
   </file>
+  <file>
+    <name>$PROJ_DIR$\..\usec_time.c</name>
+  </file>
 </project>
 
 

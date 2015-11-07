@@ -71,6 +71,7 @@
 /* Project includes */
 #include "config.h"
 #include "system.h"
+#include "usec_time.h"
 #include "led.h"
 
 // Driverlib includes
@@ -309,6 +310,7 @@ void vTestTask2( void *pvParameters )
 
 void vTestTask3( void *pvParameters )
 {
+  uint64_t Timestamp;
   
   ledseqInit();
   for( ;; )
@@ -316,6 +318,8 @@ void vTestTask3( void *pvParameters )
 //    ledseqRun(LED_ORANGE, seq_charging);
 //    ledseqRun(LED_RED, seq_armed);
     ledseqRun(LED_GREEN, seq_testPassed);
+    Timestamp = usecTimestamp();
+    UART_PRINT("Timestamp = %lld\n\r", Timestamp);
     vTaskDelay(M2T(2000));
 //    osi_Sleep(2000);
   }
@@ -327,55 +331,7 @@ void vTestTask3( void *pvParameters )
 // Globals used by the timer interrupt handler.
 //
 //*****************************************************************************
-static volatile unsigned long g_ulSysTickValue;
-static volatile unsigned long g_ulBase;
-static volatile unsigned long g_ulRefBase;
-static volatile unsigned long g_ulRefTimerInts = 0;
-static volatile unsigned long g_ulIntClearVector;
-unsigned long g_ulTimerInts;
 
-//*****************************************************************************
-//
-//! The interrupt handler for the first timer interrupt.
-//!
-//! \param  None
-//!
-//! \return none
-//
-//*****************************************************************************
-void
-TimerBaseIntHandler(void)
-{
-    //
-    // Clear the timer interrupt.
-    //
-    Timer_IF_InterruptClear(g_ulBase);
-
-    g_ulTimerInts ++;
-    GPIO_IF_LedToggle(MCU_ORANGE_LED_GPIO);
-}
-
-//*****************************************************************************
-//
-//! The interrupt handler for the second timer interrupt.
-//!
-//! \param  None
-//!
-//! \return none
-//
-//*****************************************************************************
-void
-TimerRefIntHandler(void)
-{
-    //
-    // Clear the timer interrupt.
-    //
-    Timer_IF_InterruptClear(g_ulRefBase);
-
-    g_ulRefTimerInts ++;
-    //GPIO_IF_LedToggle(MCU_RED_LED_GPIO);
-    //imu9Read(&gyro, &acc, &mag);
-}
 //****************************************************************************
 //
 //! Update the dutycycle of the PWM timer
@@ -483,34 +439,6 @@ void InitPWMModules()
     MAP_TimerEnable(TIMERA3_BASE,TIMER_B);
 }
 
-void InitTimer(void)
-{
-    //
-    // Base address for first timer
-    //
-    g_ulBase = TIMERA0_BASE;
-    //
-    // Base address for second timer
-    //
-    g_ulRefBase = TIMERA1_BASE;
-    //
-    // Configuring the timers
-    //
-    Timer_IF_Init(PRCM_TIMERA0, g_ulBase, TIMER_CFG_PERIODIC, TIMER_A, 0);
-    Timer_IF_Init(PRCM_TIMERA1, g_ulRefBase, TIMER_CFG_PERIODIC, TIMER_A, 0);
-
-    //
-    // Setup the interrupts for the timer timeouts.
-    //
-    Timer_IF_IntSetup(g_ulBase, TIMER_A, TimerBaseIntHandler);
-    Timer_IF_IntSetup(g_ulRefBase, TIMER_A, TimerRefIntHandler);
-
-    //
-    // Turn on the timers feeding values in mSec
-    //
-    Timer_IF_Start(g_ulBase, TIMER_A, 50);
-    Timer_IF_Start(g_ulRefBase, TIMER_A, 2);
-}
 //****************************************************************************
 //
 //! Disables the timer PWMs
@@ -623,7 +551,7 @@ void main()
     
     ledInit();
     //
-    InitTimer();
+    initUsecTimer();
     //
     // Initialize the PWMs used for driving the LEDs
     //
@@ -673,7 +601,7 @@ void main()
     //
     osi_start();
     
-    
+    /*
     //
     // I2C Init
     //
@@ -691,6 +619,7 @@ void main()
         ERR_PRINT(lRetVal);
         LOOP_FOREVER();
     }
+    
     while(1)
     {
       MAP_UtilsDelay(26666);
@@ -733,6 +662,7 @@ void main()
             
 //        vTaskDelay(M2T(50));
     }
+    */
 
     //
     // De-Init peripherals - will not reach here...
