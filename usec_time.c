@@ -46,6 +46,9 @@ static volatile unsigned long g_ulRefBase;
 static volatile unsigned long g_ulRefTimerInts = 0;
 static volatile unsigned long g_ulIntClearVector;
 unsigned long g_ulTimerInts;
+uint32_t useconds;
+uint32_t uminutes;
+uint32_t uhours;
 
 //*****************************************************************************
 //
@@ -65,10 +68,15 @@ TimerBaseIntHandler(void)
     Timer_IF_InterruptClear(g_ulBase);
     usecTimerHighCount ++;
     g_ulTimerInts ++;
-    if(g_ulTimerInts > 0xFFFFF)
+    
+    if(g_ulTimerInts > 1000000)
     {
+      useconds++;
+      //useconds = useconds%60;
+      //uminutes = (useconds/60)%60;
+      //uhours = (useconds/3600)%24;
       g_ulTimerInts = 0;
-      GPIO_IF_LedToggle(MCU_ORANGE_LED_GPIO);
+      //GPIO_IF_LedToggle(MCU_ORANGE_LED_GPIO);
     }
 }
 

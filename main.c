@@ -311,16 +311,69 @@ void vTestTask2( void *pvParameters )
 void vTestTask3( void *pvParameters )
 {
   uint64_t Timestamp;
-  
+  extern uint32_t useconds;
+  static uint32_t seq;
   ledseqInit();
   for( ;; )
   {
 //    ledseqRun(LED_ORANGE, seq_charging);
 //    ledseqRun(LED_RED, seq_armed);
-    ledseqRun(LED_GREEN, seq_testPassed);
+    seq = (useconds/60)%60;
+    switch( seq/10 )
+    {
+    case 0:ledseqRun(LED_GREEN, seq_testPassed);break;  
+    case 1:ledseqRun(LED_GREEN, seq_1shot);break;
+    case 2:ledseqRun(LED_GREEN, seq_2shot);break;
+    case 3:ledseqRun(LED_GREEN, seq_3shot);break;
+    case 4:ledseqRun(LED_GREEN, seq_4shot);break;
+    case 5:ledseqRun(LED_GREEN, seq_5shot);break;
+    case 6:ledseqRun(LED_GREEN, seq_6shot);break;
+    case 7:ledseqRun(LED_GREEN, seq_7shot);break;
+    case 8:ledseqRun(LED_GREEN, seq_8shot);break;
+    case 9:ledseqRun(LED_GREEN, seq_9shot);break;
+    case 10:ledseqRun(LED_GREEN, seq_10shot);break;
+    default:break;
+    }
+    switch( seq%10 )
+    {
+    case 0:ledseqRun(LED_ORANGE, seq_testPassed);break;
+    case 1:ledseqRun(LED_ORANGE, seq_1shot);break;
+    case 2:ledseqRun(LED_ORANGE, seq_2shot);break;
+    case 3:ledseqRun(LED_ORANGE, seq_3shot);break;
+    case 4:ledseqRun(LED_ORANGE, seq_4shot);break;
+    case 5:ledseqRun(LED_ORANGE, seq_5shot);break;
+    case 6:ledseqRun(LED_ORANGE, seq_6shot);break;
+    case 7:ledseqRun(LED_ORANGE, seq_7shot);break;
+    case 8:ledseqRun(LED_ORANGE, seq_8shot);break;
+    case 9:ledseqRun(LED_ORANGE, seq_9shot);break;
+    case 10:ledseqRun(LED_ORANGE, seq_10shot);break;
+    default:break;
+    }
+    seq = (useconds/3600)%12;
+     switch( seq )
+    {
+    case 0:ledseqRun(LED_RED, seq_testPassed);break;
+    case 1:ledseqRun(LED_RED, seq_1shot);break;
+    case 2:ledseqRun(LED_RED, seq_2shot);break;
+    case 3:ledseqRun(LED_RED, seq_3shot);break;
+    case 4:ledseqRun(LED_RED, seq_4shot);break;
+    case 5:ledseqRun(LED_RED, seq_5shot);break;
+    case 6:ledseqRun(LED_RED, seq_6shot);break;
+    case 7:ledseqRun(LED_RED, seq_7shot);break;
+    case 8:ledseqRun(LED_RED, seq_8shot);break;
+    case 9:ledseqRun(LED_RED, seq_9shot);break;
+    case 10:ledseqRun(LED_RED, seq_10shot);break;
+    case 11:ledseqRun(LED_RED, seq_11shot);break;
+    case 12:ledseqRun(LED_RED, seq_12shot);break;
+    default:break;
+    }
+    //ledseqRun(LED_ORANGE, seq_3shot);
     Timestamp = usecTimestamp();
+    
     UART_PRINT("Timestamp = %lld\n\r", Timestamp);
-    vTaskDelay(M2T(2000));
+    
+    vTaskDelay(M2T(5000));
+    
 //    osi_Sleep(2000);
   }
   
