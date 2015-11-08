@@ -174,8 +174,9 @@
           <name>CCDefines</name>
           <state>ewarm</state>
           <state>USE_FREERTOS</state>
-          <state>TIMER1</state>
+          <state>TIMER</state>
           <state>USE_UART_CRTP</state>
+          <state>MOTOR_RAMPUP_TEST1</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -978,9 +979,6 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\imu.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\..\kalman.hpp</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\led.c</name>

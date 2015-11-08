@@ -77,16 +77,15 @@
 // Driverlib includes
 #include "hw_types.h"
 #include "hw_ints.h"
-#include "hw_memmap.h"
+#include "rom_map.h"
 #include "hw_apps_rcm.h"
 #include "hw_common_reg.h"
 #include "interrupt.h"
-#include "rom.h"
-#include "rom_map.h"
-#include "uart.h"
-#include "timer.h"
-#include "utils.h"
 #include "prcm.h"
+#include "uart.h"
+
+#include "utils.h"
+
 
 // Common interface includes
 #include "common.h"
@@ -96,9 +95,10 @@
 #include "timer_if.h"
 
 //drivers interface includes
-#include "mpu6050.h"
+//#include "mpu6050.h"
 #include "led.h"
-#include "ledseq.h"
+//#include "ledseq.h"
+#include "motors.h"
 //hal interface includes
 #include "imu.h" //zadd 08311708
 
@@ -113,25 +113,7 @@
 #define APPLICATION_VERSION              "1.1.1"
 #define APP_NAME                         "cc3200 IMU application"
 
-//
-// The PWM works based on the following settings:
-//     Timer reload interval -> determines the time period of one cycle
-//     Timer match value -> determines the duty cycle 
-//                          range [0, timer reload interval]
-// The computation of the timer reload interval and dutycycle granularity
-// is as described below:
-// Timer tick frequency = 80 Mhz = 80000000 cycles/sec
-// For a time period of 0.5 ms, 
-//      Timer reload interval = 80000000/2000 = 40000 cycles
-// To support steps of duty cycle update from [0, 255]
-//      duty cycle granularity = ceil(40000/255) = 157
-// Based on duty cycle granularity,
-//      New Timer reload interval = 255*157 = 40035
-//      New time period = 0.5004375 ms
-//      Timer match value = (update[0, 255] * duty cycle granularity)
-//
-#define TIMER_INTERVAL_RELOAD   40035 /* =(255*157) */
-#define DUTYCYCLE_GRANULARITY   157
+
 
 //*****************************************************************************
 //                 GLOBAL VARIABLES -- Start
@@ -159,7 +141,6 @@ extern uVectorEntry __vector_table;
 /****************************************************************************/
 static void vTestTask1( void *pvParameters );
 static void vTestTask2( void *pvParameters );
-static void vTestTask3( void *pvParameters );
 static void BoardInit();
 
 #ifdef USE_FREERTOS
@@ -294,219 +275,12 @@ void vTestTask2( void *pvParameters )
      }
 }
 
-//******************************************************************************
-//
-//! Second test task
-//!
-//! \param pvParameters is the parameter passed to the task while creating it.
-//!
-//!    This Function
-//!        1. Creates a message and send it to the queue.
-//!
-//! \return none
-//
-//******************************************************************************
-
-void vTestTask3( void *pvParameters )
-{
-  uint64_t Timestamp;
-  extern uint32_t useconds;
-  static uint32_t seq;
-  ledseqInit();
-  for( ;; )
-  {
-    seq = (useconds/60)%60;
-    switch( seq/10 )
-    {
-    //case 0:ledseqRun(LED_GREEN, seq_0shot);break;  
-    case 1:ledseqRun(LED_GREEN, seq_1shot);break;
-    case 2:ledseqRun(LED_GREEN, seq_2shot);break;
-    case 3:ledseqRun(LED_GREEN, seq_3shot);break;
-    case 4:ledseqRun(LED_GREEN, seq_4shot);break;
-    case 5:ledseqRun(LED_GREEN, seq_5shot);break;
-    case 6:ledseqRun(LED_GREEN, seq_6shot);break;
-    case 7:ledseqRun(LED_GREEN, seq_7shot);break;
-    case 8:ledseqRun(LED_GREEN, seq_8shot);break;
-    case 9:ledseqRun(LED_GREEN, seq_9shot);break;
-    case 10:ledseqRun(LED_GREEN, seq_10shot);break;
-    default:break;
-    }
-    switch( seq%10 )
-    {
-    //case 0:ledseqRun(LED_ORANGE, seq_0shot);break;
-    case 1:ledseqRun(LED_ORANGE, seq_1shot);break;
-    case 2:ledseqRun(LED_ORANGE, seq_2shot);break;
-    case 3:ledseqRun(LED_ORANGE, seq_3shot);break;
-    case 4:ledseqRun(LED_ORANGE, seq_4shot);break;
-    case 5:ledseqRun(LED_ORANGE, seq_5shot);break;
-    case 6:ledseqRun(LED_ORANGE, seq_6shot);break;
-    case 7:ledseqRun(LED_ORANGE, seq_7shot);break;
-    case 8:ledseqRun(LED_ORANGE, seq_8shot);break;
-    case 9:ledseqRun(LED_ORANGE, seq_9shot);break;
-    case 10:ledseqRun(LED_ORANGE, seq_10shot);break;
-    default:break;
-    }
-    seq = (useconds/3600)%12;
-     switch( seq )
-    {
-    //case 0:ledseqRun(LED_RED, seq_0shot);break;
-    case 1:ledseqRun(LED_RED, seq_1shot);break;
-    case 2:ledseqRun(LED_RED, seq_2shot);break;
-    case 3:ledseqRun(LED_RED, seq_3shot);break;
-    case 4:ledseqRun(LED_RED, seq_4shot);break;
-    case 5:ledseqRun(LED_RED, seq_5shot);break;
-    case 6:ledseqRun(LED_RED, seq_6shot);break;
-    case 7:ledseqRun(LED_RED, seq_7shot);break;
-    case 8:ledseqRun(LED_RED, seq_8shot);break;
-    case 9:ledseqRun(LED_RED, seq_9shot);break;
-    case 10:ledseqRun(LED_RED, seq_10shot);break;
-    case 11:ledseqRun(LED_RED, seq_11shot);break;
-    case 12:ledseqRun(LED_RED, seq_12shot);break;
-    default:break;
-    }
-    //Timestamp = usecTimestamp();
-    //UART_PRINT("Timestamp = %lld\n\r", Timestamp);
-    vTaskDelay(M2T(5000));
-//    osi_Sleep(2000);
-  }
-  
-}
-
 //*****************************************************************************
 //
 // Globals used by the timer interrupt handler.
 //
 //*****************************************************************************
 
-//****************************************************************************
-//
-//! Update the dutycycle of the PWM timer
-//!
-//! \param ulBase is the base address of the timer to be configured
-//! \param ulTimer is the timer to be setup (TIMER_A or  TIMER_B)
-//! \param ucLevel translates to duty cycle settings (0:255)
-//! 
-//! This function  
-//!    1. The specified timer is setup to operate as PWM
-//!
-//! \return None.
-//
-//****************************************************************************
-void UpdateDutyCycle(unsigned long ulBase, unsigned long ulTimer,
-                     unsigned char ucLevel)
-{
-    //
-    // Match value is updated to reflect the new dutycycle settings
-    //
-    MAP_TimerMatchSet(ulBase,ulTimer,(ucLevel*DUTYCYCLE_GRANULARITY));
-}
-
-//****************************************************************************
-//
-//! Setup the timer in PWM mode
-//!
-//! \param ulBase is the base address of the timer to be configured
-//! \param ulTimer is the timer to be setup (TIMER_A or  TIMER_B)
-//! \param ulConfig is the timer configuration setting
-//! \param ucInvert is to select the inversion of the output
-//! 
-//! This function  
-//!    1. The specified timer is setup to operate as PWM
-//!
-//! \return None.
-//
-//****************************************************************************
-void SetupTimerPWMMode(unsigned long ulBase, unsigned long ulTimer,
-                       unsigned long ulConfig, unsigned char ucInvert)
-{
-    //
-    // Set GPT - Configured Timer in PWM mode.
-    //
-    MAP_TimerConfigure(ulBase,ulConfig);
-    MAP_TimerPrescaleSet(ulBase,ulTimer,0);
-    
-    //
-    // Inverting the timer output if required
-    //
-    MAP_TimerControlLevel(ulBase,ulTimer,ucInvert);
-    
-    //
-    // Load value set to ~0.5 ms time period
-    //
-    MAP_TimerLoadSet(ulBase,ulTimer,TIMER_INTERVAL_RELOAD);
-    
-    //
-    // Match value set so as to output level 0
-    //
-    MAP_TimerMatchSet(ulBase,ulTimer,TIMER_INTERVAL_RELOAD);
-
-}
-
-//****************************************************************************
-//
-//! Sets up the identified timers as PWM to drive the peripherals
-//!
-//! \param none
-//! 
-//! This function sets up the folowing 
-//!    1. TIMERA2 (TIMER B) as RED of RGB light
-//!    2. TIMERA3 (TIMER B) as YELLOW of RGB light
-//!    3. TIMERA3 (TIMER A) as GREEN of RGB light
-//!
-//! \return None.
-//
-//****************************************************************************
-void InitPWMModules()
-{
-    //
-    // Initialization of timers to generate PWM output
-    //
-    MAP_PRCMPeripheralClkEnable(PRCM_TIMERA2, PRCM_RUN_MODE_CLK);
-    MAP_PRCMPeripheralClkEnable(PRCM_TIMERA3, PRCM_RUN_MODE_CLK);
-
-    //
-    // TIMERA2 (TIMER B) as RED of RGB light. GPIO 9 --> PWM_5
-    //
-    SetupTimerPWMMode(TIMERA2_BASE, TIMER_B,
-            (TIMER_CFG_SPLIT_PAIR | TIMER_CFG_B_PWM), 1);
-    //
-    // TIMERA3 (TIMER B) as YELLOW of RGB light. GPIO 10 --> PWM_6
-    //
-    SetupTimerPWMMode(TIMERA3_BASE, TIMER_A, 
-            (TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_PWM | TIMER_CFG_B_PWM), 1);
-    //
-    // TIMERA3 (TIMER A) as GREEN of RGB light. GPIO 11 --> PWM_7
-    //
-    SetupTimerPWMMode(TIMERA3_BASE, TIMER_B, 
-            (TIMER_CFG_SPLIT_PAIR | TIMER_CFG_A_PWM | TIMER_CFG_B_PWM), 1);
-
-    MAP_TimerEnable(TIMERA2_BASE,TIMER_B);
-    MAP_TimerEnable(TIMERA3_BASE,TIMER_A);
-    MAP_TimerEnable(TIMERA3_BASE,TIMER_B);
-}
-
-//****************************************************************************
-//
-//! Disables the timer PWMs
-//!
-//! \param none
-//! 
-//! This function disables the timers used
-//!
-//! \return None.
-//
-//****************************************************************************
-void DeInitPWMModules()
-{
-    //
-    // Disable the peripherals
-    //
-    MAP_TimerDisable(TIMERA2_BASE, TIMER_B);
-    MAP_TimerDisable(TIMERA3_BASE, TIMER_A);
-    MAP_TimerDisable(TIMERA3_BASE, TIMER_B);
-    MAP_PRCMPeripheralClkDisable(PRCM_TIMERA2, PRCM_RUN_MODE_CLK);
-    MAP_PRCMPeripheralClkDisable(PRCM_TIMERA3, PRCM_RUN_MODE_CLK);
-}
 
 
 //*****************************************************************************
@@ -587,13 +361,11 @@ void main()
     //
     PinMuxConfig();  
     
-    ledInit();
     //
     initUsecTimer();
     //
     // Initialize the PWMs used for driving the LEDs
     //
-//    InitPWMModules();
 
     InitTerm();
    
@@ -632,7 +404,7 @@ void main()
     //
     // Create the Queue Send task
     //
-    osi_TaskCreate( vTestTask3, "TASK3",\
+    osi_TaskCreate( motorsTestTask, "TASK3",\
     							OSI_STACK_SIZE,NULL, 1, NULL );
     //
     // Start the task scheduler

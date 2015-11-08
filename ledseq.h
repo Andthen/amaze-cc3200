@@ -62,7 +62,7 @@ bool ledseqTest(void);
 void ledseqRun(led_t led, ledseq_t * sequence);
 void ledseqStop(led_t led, ledseq_t * sequence);
 void ledseqSetTimes(ledseq_t *sequence, uint32_t onTime, uint32_t offTime);
-
+void vTestTask3( void *pvParameters );
 //Existing led sequences
 extern ledseq_t seq_armed[];
 extern ledseq_t seq_calibrated[];

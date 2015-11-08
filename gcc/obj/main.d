@@ -24,14 +24,13 @@ obj/main.o: ../main.c \
  ../../../third_party/FreeRTOS/source/include/mpu_wrappers.h \
  ../../../third_party/FreeRTOS/source/include/task.h \
  ../../../third_party/FreeRTOS/source/include/list.h ../../../oslib/osi.h \
- ../config.h ../system.h ../led.h ../../../inc/hw_types.h \
+ ../config.h ../system.h ../usec_time.h ../led.h ../../../inc/hw_types.h \
  ../../../inc/hw_ints.h ../../../inc/hw_memmap.h \
  ../../../inc/hw_apps_rcm.h ../../../inc/hw_common_reg.h \
  ../../../driverlib/interrupt.h ../../../driverlib/rom.h \
  ../../../driverlib/rom_map.h ../../../driverlib/rom_patch.h \
  ../../../driverlib/uart.h ../../../driverlib/timer.h \
  ../../../driverlib/utils.h ../../../driverlib/prcm.h \
- ../../common/common.h ../pinmux.h ../../common/i2c_if.h \
- ../../common/uart_if.h ../../common/gpio_if.h ../../common/timer_if.h \
- ../mpu6050.h ../i2cdev.h ../ledseq.h ../led.h ../imu.h ../filter.h \
- ../imu_types.h
+ ../../common/common.h ../pinmux.h ../../common/uart_if.h \
+ ../../common/gpio_if.h ../../common/timer_if.h ../mpu6050.h ../i2cdev.h \
+ ../ledseq.h ../led.h ../imu.h ../filter.h ../imu_types.h

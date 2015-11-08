@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=-938887726
+Checksum=760512941
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -23,19 +23,6 @@ ShowArgs=0
 [Disassembly]
 MixedMode=1
 <<<<<<< HEAD
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
-[DriverProfiling]
-Enabled=0
-Mode=0
-Graph=0
-Symbiont=0
-Exclusions=
 [Disassemble mode]
 mode=0
 [Breakpoints]
@@ -43,6 +30,19 @@ Bp0=_ "STD_CODE" "0x20009180" 0 0 0 0 "" 0 ""
 Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\third_party\FreeRTOS\source\FreeRTOSConfig.h}.3.1" 0 0 0 0 "" 0 ""
 Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\..\..\third_party\FreeRTOS\source\include\task.h}.1044.1" 0 0 0 0 "" 0 ""
 Count=3
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
 [Aliases]
 Count=0
 SuppressDialog=0
+[DriverProfiling]
+Enabled=0
+Mode=0
+Graph=0
+Symbiont=0
+Exclusions=

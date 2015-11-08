@@ -108,9 +108,6 @@
     <name>$PROJ_DIR$\..\imu.c</name>
   </file>
   <file>
-    <name>$PROJ_DIR$\..\kalman.hpp</name>
-  </file>
-  <file>
     <name>$PROJ_DIR$\..\led.c</name>
   </file>
   <file>
