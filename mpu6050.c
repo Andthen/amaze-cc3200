@@ -2,6 +2,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "mpu6050.h"
+#include "i2c_if.h"
 #include "i2cdev.h"
 
 static uint8_t devAddr;
@@ -14,6 +15,16 @@ void mpu6050Init(I2C_TypeDef *i2cPort)
   if (isInit)
     return;
 
+  //
+  // I2C Init
+  //
+  long lRetVal = -1;
+  lRetVal = I2C_IF_Open(I2C_MASTER_MODE_FST);
+  if(lRetVal < 0)
+  {
+      ERR_PRINT(lRetVal);
+      LOOP_FOREVER();
+  }    
   I2Cx = i2cPort;
   devAddr = MPU6050_DEFAULT_ADDRESS;
 

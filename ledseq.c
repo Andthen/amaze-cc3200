@@ -49,6 +49,7 @@ static ledseq_t * sequences[] = {
   seq_calibrated,
   seq_alive,
   seq_linkup,
+  seq_0shot,
   seq_1shot,
   seq_2shot,
   seq_3shot,
@@ -140,6 +141,12 @@ ledseq_t seq_testPassed[] = {
   {false, LEDSEQ_WAITMS(50)},
   { true, LEDSEQ_WAITMS(50)},
   {false, LEDSEQ_WAITMS(50)},
+  {false, LEDSEQ_STOP},
+};
+
+ledseq_t seq_0shot[] = {
+  { true, LEDSEQ_WAITMS(500)},
+  {false, LEDSEQ_WAITMS(100)},
   {false, LEDSEQ_STOP},
 };
 

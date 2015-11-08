@@ -91,7 +91,6 @@
 // Common interface includes
 #include "common.h"
 #include "pinmux.h"
-#include "i2c_if.h"
 #include "uart_if.h"
 #include "gpio_if.h"
 #include "timer_if.h"
@@ -316,12 +315,10 @@ void vTestTask3( void *pvParameters )
   ledseqInit();
   for( ;; )
   {
-//    ledseqRun(LED_ORANGE, seq_charging);
-//    ledseqRun(LED_RED, seq_armed);
     seq = (useconds/60)%60;
     switch( seq/10 )
     {
-    case 0:ledseqRun(LED_GREEN, seq_testPassed);break;  
+    //case 0:ledseqRun(LED_GREEN, seq_0shot);break;  
     case 1:ledseqRun(LED_GREEN, seq_1shot);break;
     case 2:ledseqRun(LED_GREEN, seq_2shot);break;
     case 3:ledseqRun(LED_GREEN, seq_3shot);break;
@@ -336,7 +333,7 @@ void vTestTask3( void *pvParameters )
     }
     switch( seq%10 )
     {
-    case 0:ledseqRun(LED_ORANGE, seq_testPassed);break;
+    //case 0:ledseqRun(LED_ORANGE, seq_0shot);break;
     case 1:ledseqRun(LED_ORANGE, seq_1shot);break;
     case 2:ledseqRun(LED_ORANGE, seq_2shot);break;
     case 3:ledseqRun(LED_ORANGE, seq_3shot);break;
@@ -352,7 +349,7 @@ void vTestTask3( void *pvParameters )
     seq = (useconds/3600)%12;
      switch( seq )
     {
-    case 0:ledseqRun(LED_RED, seq_testPassed);break;
+    //case 0:ledseqRun(LED_RED, seq_0shot);break;
     case 1:ledseqRun(LED_RED, seq_1shot);break;
     case 2:ledseqRun(LED_RED, seq_2shot);break;
     case 3:ledseqRun(LED_RED, seq_3shot);break;
@@ -367,13 +364,9 @@ void vTestTask3( void *pvParameters )
     case 12:ledseqRun(LED_RED, seq_12shot);break;
     default:break;
     }
-    //ledseqRun(LED_ORANGE, seq_3shot);
-    Timestamp = usecTimestamp();
-    
-    UART_PRINT("Timestamp = %lld\n\r", Timestamp);
-    
+    //Timestamp = usecTimestamp();
+    //UART_PRINT("Timestamp = %lld\n\r", Timestamp);
     vTaskDelay(M2T(5000));
-    
 //    osi_Sleep(2000);
   }
   
@@ -584,14 +577,6 @@ BoardInit(void)
 //****************************************************************************
 void main()
 {
-    int iLoopCnt;
-    long lRetVal = -1;
-    int tmpvalue;
-    //zadd 08311744
-    static Axis3f gyro; // Gyro axis data in deg/s
-    static Axis3f acc;  // Accelerometer axis data in mG
-    static Axis3f mag;  // Magnetometer axis data in testla
-//
     //
     // Board Initialisation
     //
@@ -653,70 +638,6 @@ void main()
     // Start the task scheduler
     //
     osi_start();
-    
-    /*
-    //
-    // I2C Init
-    //
-    lRetVal = I2C_IF_Open(I2C_MASTER_MODE_FST);
-    if(lRetVal < 0)
-    {
-        ERR_PRINT(lRetVal);
-        LOOP_FOREVER();
-    }    
-    
-    //del08311649 mpu6050Init(I2C1);
-    imu6Init();
-     if (imu6Test() == !TRUE)
-    {
-        ERR_PRINT(lRetVal);
-        LOOP_FOREVER();
-    }
-    
-    while(1)
-    {
-      MAP_UtilsDelay(26666);
-      imu9Read(&gyro, &acc, &mag);
-      if (imu6IsCalibrated())
-      {
-        //commanderGetRPY(&eulerRollDesired, &eulerPitchDesired, &eulerYawDesired);
-      }
-      tmpvalue = 1000 * acc.x;
-      if(g_ulRefTimerInts ++ > 50)
-      {
-        UART_PRINT("accx = %d\n\r", tmpvalue);
-        g_ulRefTimerInts = 0;
-      }
-    }
-    
-    //never run to this location
-    {
-      UpdateDutyCycle(TIMERA3_BASE, TIMER_A, (int)abs(tmpvalue)/4);
-        //
-        // RYB - Update the duty cycle of the corresponding timers.
-        // This changes the brightness of the LEDs appropriately.
-        // The timers used are as per LP schematics.
-        //
-        for(iLoopCnt = 0; iLoopCnt < 255; iLoopCnt++)
-        {
-            UpdateDutyCycle(TIMERA2_BASE, TIMER_B, iLoopCnt);
-            UpdateDutyCycle(TIMERA3_BASE, TIMER_B, iLoopCnt);
-            
-            MAP_UtilsDelay(4000);
-        }
-        
-        for(iLoopCnt = 255; iLoopCnt > 0; iLoopCnt--)
-        {
-            UpdateDutyCycle(TIMERA2_BASE, TIMER_B, iLoopCnt);
-            UpdateDutyCycle(TIMERA3_BASE, TIMER_B, iLoopCnt);
-            
-            MAP_UtilsDelay(4000);//UtilsDelay(40000) = 3mS
-        }    
-            
-//        vTaskDelay(M2T(50));
-    }
-    */
-
     //
     // De-Init peripherals - will not reach here...
     //

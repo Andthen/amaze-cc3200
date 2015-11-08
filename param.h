@@ -42,6 +42,14 @@ struct param_s {
   void * address;
 };
 
+#ifndef TRUE
+#define TRUE true
+#endif
+
+#ifndef FALSE
+#define FALSE false
+#endif
+
 #define PARAM_BYTES_MASK 0x03
 #define PARAM_1BYTE  0x00
 #define PARAM_2BYTES 0x01

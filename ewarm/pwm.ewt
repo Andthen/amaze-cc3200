@@ -90,6 +90,9 @@
     <name>$PROJ_DIR$\..\configblock.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\controller.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\filter.c</name>
   </file>
   <file>

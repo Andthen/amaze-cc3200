@@ -25,7 +25,7 @@
  */
 #include <stdbool.h>
  
-#include "stm32f10x_conf.h"
+//#include "stm32f10x_conf.h"
 #include "FreeRTOS.h"
 #include "task.h"
 
@@ -143,6 +143,7 @@ void controllerGetActuatorOutput(int16_t* roll, int16_t* pitch, int16_t* yaw)
   *yaw = yawOutput;
 }
 
+#if defined(gcc)
 PARAM_GROUP_START(pid_attitude)
 PARAM_ADD(PARAM_FLOAT, roll_kp, &pidRoll.kp)
 PARAM_ADD(PARAM_FLOAT, roll_ki, &pidRoll.ki)
@@ -166,3 +167,4 @@ PARAM_ADD(PARAM_FLOAT, yaw_kp, &pidYawRate.kp)
 PARAM_ADD(PARAM_FLOAT, yaw_ki, &pidYawRate.ki)
 PARAM_ADD(PARAM_FLOAT, yaw_kd, &pidYawRate.kd)
 PARAM_GROUP_STOP(pid_rate)
+#endif

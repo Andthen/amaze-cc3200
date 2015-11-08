@@ -80,10 +80,10 @@ void systemInit(void)
   xSemaphoreTake(canStartMutex, portMAX_DELAY);
 
   configblockInit();
-  workerInit();
-  adcInit();
+//  workerInit();
+//  adcInit();
   ledseqInit();
-  pmInit();
+//  pmInit();
     
   isInit = true;
 }

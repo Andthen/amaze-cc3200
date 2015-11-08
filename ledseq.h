@@ -74,7 +74,8 @@ extern ledseq_t seq_charged[];
 extern ledseq_t seq_charging[];
 extern ledseq_t seq_chargingMax[];
 extern ledseq_t seq_bootloader[];
-extern ledseq_t seq_testPassed[];
+extern ledseq_t seq_testPassed[];\
+extern ledseq_t seq_0shot[];
 extern ledseq_t seq_1shot[];
 extern ledseq_t seq_2shot[];
 extern ledseq_t seq_3shot[];
