@@ -274,11 +274,11 @@ void motorsSetRatio(int id, uint16_t ratio)
 //      TIM_SetCompare4(MOTORS_GPIO_TIM_M1_2, C_16_TO_BITS(ratio));
       break;
     case MOTOR_M2:
-      UpdateDutyCycle(TIMERA3_BASE, TIMER_B, ratio);  
+      UpdateDutyCycle(TIMERA3_BASE, TIMER_A, ratio);  
 //      TIM_SetCompare3(MOTORS_GPIO_TIM_M1_2, C_16_TO_BITS(ratio));
       break;
     case MOTOR_M3:
-      UpdateDutyCycle(TIMERA3_BASE, TIMER_A, ratio);
+      UpdateDutyCycle(TIMERA3_BASE, TIMER_B, ratio);
 //      TIM_SetCompare4(MOTORS_GPIO_TIM_M3_4, C_16_TO_BITS(ratio));
       break;
     case MOTOR_M4:
@@ -295,10 +295,10 @@ int motorsGetRatio(int id)
       GetDutyCycle(TIMERA2_BASE, TIMER_B);
 //      return C_BITS_TO_16(TIM_GetCapture4(MOTORS_GPIO_TIM_M1_2));
     case MOTOR_M2:
-      GetDutyCycle(TIMERA3_BASE, TIMER_B);
+      GetDutyCycle(TIMERA3_BASE, TIMER_A);
 //      return C_BITS_TO_16(TIM_GetCapture3(MOTORS_GPIO_TIM_M1_2));
     case MOTOR_M3:
-      GetDutyCycle(TIMERA3_BASE, TIMER_A);
+      GetDutyCycle(TIMERA3_BASE, TIMER_B);
  //     return C_BITS_TO_16(TIM_GetCapture4(MOTORS_GPIO_TIM_M3_4));
     case MOTOR_M4:
 //      return C_BITS_TO_16(TIM_GetCapture3(MOTORS_GPIO_TIM_M3_4));

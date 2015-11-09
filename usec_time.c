@@ -31,6 +31,7 @@
 #include "rom_map.h"
 #include "hw_memmap.h"
 #include "timer.h"
+#include "common.h"
 #include "timer_if.h"
 #include "gpio_if.h"
 #include "usec_time.h"
@@ -67,17 +68,7 @@ TimerBaseIntHandler(void)
     //
     Timer_IF_InterruptClear(g_ulBase);
     usecTimerHighCount ++;
-    g_ulTimerInts ++;
-    
-    if(g_ulTimerInts > 1000000)
-    {
-      useconds++;
-      //useconds = useconds%60;
-      //uminutes = (useconds/60)%60;
-      //uhours = (useconds/3600)%24;
-      g_ulTimerInts = 0;
-      //GPIO_IF_LedToggle(MCU_ORANGE_LED_GPIO);
-    }
+    //g_ulTimerInts ++;
 }
 
 //*****************************************************************************
@@ -92,12 +83,19 @@ TimerBaseIntHandler(void)
 void
 TimerRefIntHandler(void)
 {
+    static uint64_t Timestamp;
     //
     // Clear the timer interrupt.
     //
     Timer_IF_InterruptClear(g_ulRefBase);
 
-    g_ulRefTimerInts ++;
+    //g_ulRefTimerInts ++;
+    useconds++;
+    //useconds = useconds%60;
+    uminutes = (useconds/60)%60;
+    uhours = (useconds/3600)%24;
+    Timestamp = usecTimestamp();
+    UART_PRINT("Timestamp = %lld\n\r", Timestamp);
     //GPIO_IF_LedToggle(MCU_RED_LED_GPIO);
     //imu9Read(&gyro, &acc, &mag);
 }
@@ -114,6 +112,9 @@ void initUsecTimer(void)
     //
     // Configuring the timers
     //
+    
+    //
+    usecTimerHighCount = 0;
     Timer_IF_Init(PRCM_TIMERA0, g_ulBase, TIMER_CFG_PERIODIC, TIMER_A, 0);
     Timer_IF_Init(PRCM_TIMERA1, g_ulRefBase, TIMER_CFG_PERIODIC, TIMER_A, 0);
 
@@ -128,13 +129,13 @@ void initUsecTimer(void)
     //
     //Timer_IF_Start(g_ulBase, TIMER_A, 1);
     /*******/
-    MAP_TimerLoadSet(g_ulBase,TIMER_A,80);
+    MAP_TimerLoadSet(g_ulBase,TIMER_A,0xFFFFFFFF);//53 second
     //
     // Enable the GPT 
     //
     MAP_TimerEnable(g_ulBase,TIMER_A);
     /*******/
-    Timer_IF_Start(g_ulRefBase, TIMER_A, 2);
+    Timer_IF_Start(g_ulRefBase, TIMER_A, 1000);
   /*
   usecTimerHighCount = 0;
 
@@ -176,8 +177,8 @@ uint64_t usecTimestamp(void)
   // There was no increment in between
   if (high == high0)
   {
-    return (((uint64_t)high) << 16) + low;
+    return (((uint64_t)high) << 32) + low;
   }
   // There was an increment, but we don't expect another one soon
-  return (((uint64_t)high) << 16) + Timer_IF_GetCount(g_ulBase, TIMER_A);
+  return (((uint64_t)high) << 32) + Timer_IF_GetCount(g_ulBase, TIMER_A);
 }

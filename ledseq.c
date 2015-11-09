@@ -516,7 +516,7 @@ static void updateActive(led_t led)
 
 void vTestTask3( void *pvParameters )
 {
-  uint64_t Timestamp;
+  //uint64_t Timestamp;
   extern uint32_t useconds;
   static uint32_t seq;
   ledseqInit();

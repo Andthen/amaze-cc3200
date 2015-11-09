@@ -362,10 +362,12 @@ void main()
     PinMuxConfig();  
     
     //
-    initUsecTimer();
-    //
     // Initialize the PWMs used for driving the LEDs
     //
+    motorsInit();
+      
+    //
+    initUsecTimer();
 
     InitTerm();
    
@@ -389,7 +391,7 @@ void main()
     	// Queue was not created and must not be used.
     	while(1);
     }
-
+    
     //
     // Create the Queue Receive task
     //
