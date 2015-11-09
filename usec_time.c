@@ -89,12 +89,13 @@ TimerRefIntHandler(void)
     //
     Timer_IF_InterruptClear(g_ulRefBase);
 
+    Timestamp = usecTimestamp();
     //g_ulRefTimerInts ++;
     useconds++;
     //useconds = useconds%60;
     uminutes = (useconds/60)%60;
     uhours = (useconds/3600)%24;
-    Timestamp = usecTimestamp();
+    
     UART_PRINT("Timestamp = %lld\n\r", Timestamp);
     //GPIO_IF_LedToggle(MCU_RED_LED_GPIO);
     //imu9Read(&gyro, &acc, &mag);

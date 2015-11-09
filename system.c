@@ -48,6 +48,7 @@
 //#include "comm.h"
 #include "stabilizer.h"
 #include "commander.h"
+#include "common.h"
 
 //#include "console.h"
 
@@ -79,7 +80,7 @@ void systemInit(void)
   canStartMutex = xSemaphoreCreateMutex();
   xSemaphoreTake(canStartMutex, portMAX_DELAY);
 
-  configblockInit();
+//  configblockInit();
 //  workerInit();
 //  adcInit();
   ledseqInit();
@@ -92,10 +93,10 @@ bool systemTest()
 {
   bool pass=isInit;
   
-  pass &= adcTest();
+  //pass &= adcTest();
   pass &= ledseqTest();
-  pass &= pmTest();
-  pass &= workerTest();
+  //pass &= pmTest();
+  //pass &= workerTest();
   
   return pass;
 }
@@ -120,23 +121,23 @@ void systemTask(void *arg)
 #endif
 #endif //ndef USE_UART_CRTP
 
-  commInit();
+  //commInit();
 
   DEBUG_PRINT("Crazyflie is up and running!\n");
   DEBUG_PRINT("Build %s:%s (%s) %s\n", V_SLOCAL_REVISION,
               V_SREVISION, V_STAG, (V_MODIFIED)?"MODIFIED":"CLEAN");
-  DEBUG_PRINT("I am 0x%X%X%X and I have %dKB of flash!\n",
-              *((int*)(0x1FFFF7E8+8)), *((int*)(0x1FFFF7E8+4)),
-              *((int*)(0x1FFFF7E8+0)), *((short*)(0x1FFFF7E0)));
+  //DEBUG_PRINT("I am 0x%X%X%X and I have %dKB of flash!\n",
+              //*((int*)(0x1FFFF7E8+8)), *((int*)(0x1FFFF7E8+4)),
+              //*((int*)(0x1FFFF7E8+0)), *((short*)(0x1FFFF7E0)));
 
-  commanderInit();
-  stabilizerInit();
+  //commanderInit();
+  //stabilizerInit();
   
   //Test the modules
   pass &= systemTest();
-  pass &= commTest();
-  pass &= commanderTest();
-  pass &= stabilizerTest();
+  //pass &= commTest();
+  //pass &= commanderTest();
+  //pass &= stabilizerTest();
   
   //Start the firmware
   if(pass)
@@ -162,7 +163,7 @@ void systemTask(void *arg)
     }
   }
   
-  workerLoop();
+  //workerLoop();
   
   //Should never reach this point!
   while(1)

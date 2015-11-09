@@ -55,9 +55,9 @@ C:\ti\CC3200SDK_1.1.0\cc3200-sdk\simplelink\source
 C:\ti\CC3200SDK_1.1.0\cc3200-sdk\simplelink\include
 -Dewarm=1
 -DUSE_FREERTOS=1
--DTIMER=1
+-DTIMER1=1
 -DUSE_UART_CRTP=1
--DMOTOR_RAMPUP_TEST1=1
+-DMOTOR_RAMPUP_TEST=1
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0
@@ -251,7 +251,7 @@ C:\ti\CC3200SDK_1.1.0\cc3200-sdk\simplelink\include
 -D__HAS_LOCATED_WITH_INIT__=1
 -D__IAR_COMPILERBASE__=593922
 -D__DATE__="Nov  9 2015"
--D__TIME__="09:56:45"
+-D__TIME__="17:37:39"
 -D__STDC__=1
 -D__STDC_VERSION__=199901L
 -D__STDC_HOSTED__=1

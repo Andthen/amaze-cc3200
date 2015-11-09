@@ -149,6 +149,9 @@
   <file>
     <name>$PROJ_DIR$\..\usec_time.c</name>
   </file>
+  <file>
+    <name>$PROJ_DIR$\..\version.c</name>
+  </file>
 </project>
 
 

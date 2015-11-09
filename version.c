@@ -43,9 +43,11 @@ const bool V_MODIFIED=true;
 const uint32_t V_REVISION_0=0x0;
 const uint16_t V_REVISION_1=0x0;
 
+#if defined(gcc) 
 PARAM_GROUP_START(firmware)
 PARAM_ADD(PARAM_UINT32 | PARAM_RONLY, revision0, &V_REVISION_0)
 PARAM_ADD(PARAM_UINT16 | PARAM_RONLY, revision1, &V_REVISION_1)
 PARAM_ADD(PARAM_UINT8 | PARAM_RONLY, modified, &V_MODIFIED)
 PARAM_GROUP_STOP(firmware)
+#endif 
 

@@ -357,18 +357,13 @@ void main()
     BoardInit();
     
     //
+    initUsecTimer();
+    
+    //
     // Configure the pinmux settings for the peripherals exercised
     //
     PinMuxConfig();  
-    
-    //
-    // Initialize the PWMs used for driving the LEDs
-    //
-    motorsInit();
-      
-    //
-    initUsecTimer();
-
+        
     InitTerm();
    
     //
@@ -392,6 +387,8 @@ void main()
     	while(1);
     }
     
+    //Launch the system task that will initialize and start everything
+    systemLaunch();
     //
     // Create the Queue Receive task
     //
@@ -404,14 +401,12 @@ void main()
     osi_TaskCreate( vTestTask2, "TASK2",\
     							OSI_STACK_SIZE,NULL, 1, NULL );
     //
-    // Create the Queue Send task
-    //
-    osi_TaskCreate( motorsTestTask, "TASK3",\
-    							OSI_STACK_SIZE,NULL, 1, NULL );
-    //
     // Start the task scheduler
     //
     osi_start();
+    
+      //Should never reach this point!
+    while(1);
     //
     // De-Init peripherals - will not reach here...
     //

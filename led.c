@@ -31,6 +31,8 @@ void ledInit()
     return;
   GPIO_IF_LedConfigure(LED1|LED2|LED3);
   GPIO_IF_LedOff(MCU_ALL_LED_IND);
+  
+   isInit = true;
 }
 
 bool ledTest(void)

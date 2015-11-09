@@ -174,9 +174,9 @@
           <name>CCDefines</name>
           <state>ewarm</state>
           <state>USE_FREERTOS</state>
-          <state>TIMER</state>
+          <state>TIMER1</state>
           <state>USE_UART_CRTP</state>
-          <state>MOTOR_RAMPUP_TEST1</state>
+          <state>MOTOR_RAMPUP_TEST</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1021,6 +1021,9 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\usec_time.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\version.c</name>
   </file>
 </project>
 
