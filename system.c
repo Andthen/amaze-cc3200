@@ -45,7 +45,7 @@
 //#include "worker.h"
 //#include "freeRTOSdebug.h"
 //#include "uart.h"
-//#include "comm.h"
+#include "comm.h"
 #include "stabilizer.h"
 #include "commander.h"
 #include "common.h"
@@ -101,6 +101,25 @@ bool systemTest()
   return pass;
 }
 
+//*****************************************************************************
+//
+//! Application startup display on UART
+//!
+//! \param  none
+//!
+//! \return none
+//!
+//*****************************************************************************
+static void
+DisplayBanner(char * AppName)
+{
+    UART_PRINT("\n\n\n\r");
+    UART_PRINT("\t\t *************************************************\n\r");
+    UART_PRINT("\t\t     CC3200 %s Application       \n\r", AppName);
+    UART_PRINT("\t\t *************************************************\n\r");
+    UART_PRINT("\n\n\n\r");
+}
+
 /* Private functions implementation */
 
 extern int paramsLen;
@@ -117,11 +136,20 @@ void systemTask(void *arg)
   debugInitTrace();
 #endif
 #ifdef ENABLE_UART
-  uartInit();
+  InitTerm();
+  //
+  // Clearing the terminal
+  //
+  ClearTerm();
+    
+  //
+  // Diasplay Banner
+  //
+  DisplayBanner(APP_NAME);
 #endif
 #endif //ndef USE_UART_CRTP
 
-  //commInit();
+  commInit();
 
   DEBUG_PRINT("Crazyflie is up and running!\n");
   DEBUG_PRINT("Build %s:%s (%s) %s\n", V_SLOCAL_REVISION,

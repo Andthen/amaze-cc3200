@@ -285,25 +285,6 @@ void vTestTask2( void *pvParameters )
 
 //*****************************************************************************
 //
-//! Application startup display on UART
-//!
-//! \param  none
-//!
-//! \return none
-//!
-//*****************************************************************************
-static void
-DisplayBanner(char * AppName)
-{
-    UART_PRINT("\n\n\n\r");
-    UART_PRINT("\t\t *************************************************\n\r");
-    UART_PRINT("\t\t     CC3200 %s Application       \n\r", AppName);
-    UART_PRINT("\t\t *************************************************\n\r");
-    UART_PRINT("\n\n\n\r");
-}
-
-//*****************************************************************************
-//
 //! Board Initialization & Configuration
 //!
 //! \param  None
@@ -363,18 +344,6 @@ void main()
     // Configure the pinmux settings for the peripherals exercised
     //
     PinMuxConfig();  
-        
-    InitTerm();
-   
-    //
-    // Clearing the terminal
-    //
-    ClearTerm();
-    
-    //
-    // Diasplay Banner
-    //
-    DisplayBanner(APP_NAME);
     
     //
     // Creating a queue for 10 elements.

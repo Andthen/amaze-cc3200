@@ -1,5 +1,4 @@
-
-/**
+/*
  *    ||          ____  _ __                           
  * +------+      / __ )(_) /_______________ _____  ___ 
  * | 0xBC |     / __  / / __/ ___/ ___/ __ `/_  / / _ \
@@ -22,15 +21,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * Version.h - Firmware version
+ * comm.c - High level communication module
  */
-#ifndef __VERSION_H__
-#define __VERSION_H__
 
-extern const char * V_SLOCAL_REVISION;
-extern const char * V_SREVISION;
-extern const char * V_STAG;
-extern const bool V_MODIFIED;
+#ifndef __COMM_H__
+#define __COMM_H__
 
-#endif /* __VERSION_H__ */
+void commInit(void);
+bool commTest(void);
 
+#endif //__COMM_H__

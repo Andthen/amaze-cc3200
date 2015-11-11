@@ -176,6 +176,7 @@
           <state>USE_FREERTOS</state>
           <state>TIMER1</state>
           <state>USE_UART_CRTP</state>
+          <state>ENABLE_UART</state>
           <state>MOTOR_RAMPUP_TEST</state>
         </option>
         <option>
@@ -960,10 +961,16 @@
     </settings>
   </configuration>
   <file>
+    <name>$PROJ_DIR$\..\comm.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\configblock.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\controller.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\crtp.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\filter.c</name>
