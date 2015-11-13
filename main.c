@@ -105,13 +105,11 @@
 //*****************************************************************************
 //                      MACRO DEFINITIONS
 //*****************************************************************************
-#define APPLICATION_VERSION     "1.1.1"
 #define DBG_PRINT               Report
 #define SPAWN_TASK_PRIORITY     9
 #define OSI_STACK_SIZE          2048
 #define MAX_MSG_LENGTH			16
-#define APPLICATION_VERSION              "1.1.1"
-#define APP_NAME                         "cc3200 IMU application"
+
 
 
 

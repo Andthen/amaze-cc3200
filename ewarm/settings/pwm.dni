@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=482553978
+Checksum=1411779489
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -14,7 +14,7 @@ ByteLimit=50
 LMI_ResetMode=0x00000000
 [LMIFTDI]
 LMIFTDIserialNo=cc3200A
-LMIFTDIfoundProbes=FF:cc3200A:
+LMIFTDIfoundProbes=
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -39,7 +39,9 @@ Exclusions=
 [Disassemble mode]
 mode=0
 [Breakpoints]
-Count=0
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\uart_hal.c}.160.7" 1 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\uart_hal.c}.238.7" 1 0 0 0 "" 0 ""
+Count=2
 [Aliases]
 Count=0
 SuppressDialog=0
