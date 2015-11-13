@@ -1,4 +1,4 @@
-/*
+/**
  *    ||          ____  _ __                           
  * +------+      / __ )(_) /_______________ _____  ___ 
  * | 0xBC |     / __  / / __/ ___/ ___/ __ `/_  / / _ \
@@ -21,76 +21,60 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * comm.c - High level communication module
+ * crtpservice.c - Implements low level services for CRTP
  */
 
 #include <stdbool.h>
-#include "config.h"
 
-//#include "radiolink.h"
+/* FreeRtos includes */
+#include "FreeRTOS.h"
+#include "task.h"
+
 #include "crtp.h"
-#include "console.h"
 #include "crtpservice.h"
-#include "param.h"
-//#include "log.h"
-//#include "eskylink.h"
-//#include "uart.h"
 
-static bool isInit;
+static bool isInit=false;
 
-void commInit(void)
+typedef enum {
+  linkEcho   = 0x00,
+  linkSource = 0x01,
+  linkSink   = 0x02,
+} LinkNbr;
+
+void crtpserviceHandler(CRTPPacket *p);
+
+void crtpserviceInit(void)
 {
   if (isInit)
     return;
 
-#ifdef USE_ESKYLINK
-  eskylinkInit();
-#else
-  //radiolinkInit();
-#endif
-
-  crtpInit();
-
-#ifdef USE_UART_CRTP
-  crtpSetLink(uartGetLink());
-#elif defined(USE_ESKYLINK)
-  crtpSetLink(eskylinkGetLink());
-#else
-  crtpSetLink(radiolinkGetLink());
-#endif
-
-  crtpserviceInit();
-  logInit();
-  consoleInit();
-  paramInit();
-  
-  //setup CRTP communication channel
-  //TODO: check for USB first and prefer USB over radio
-  //if (usbTest())
-  //  crtpSetLink(usbGetLink);
-  //else if(radioTest())
-  //  crtpSetLink(radioGetLink());
+  // Register a callback to service the Link port
+  crtpRegisterPortCB(CRTP_PORT_LINK, crtpserviceHandler);
   
   isInit = true;
 }
 
-bool commTest(void)
+bool crtpserviceTest(void)
 {
-  bool pass=isInit;
-  
-  #ifdef USE_UART_CRTP
-  pass &= uartTest();
-  #elif defined(USE_ESKYLINK)
-  pass &= eskylinkTest();
-  #else
-  pass &= radiolinkTest();
-  #endif
-  
-  pass &= crtpTest();
-  pass &= crtpserviceTest();
-  pass &= consoleTest();
-  pass &= paramTest();
-  
-  return pass;
+  return isInit;
+}
+
+void crtpserviceHandler(CRTPPacket *p)
+{
+  switch (p->channel)
+  {
+    case linkEcho:
+      crtpSendPacket(p);
+      break;
+    case linkSource:
+      p->size = CRTP_MAX_DATA_SIZE;
+      crtpSendPacket(p);
+      break;
+    case linkSink:
+      /* Ignore packet */
+      break;
+    default:
+      break;
+  } 
 }
 

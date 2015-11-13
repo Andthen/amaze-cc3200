@@ -178,6 +178,7 @@
           <state>USE_UART_CRTP</state>
           <state>ENABLE_UART</state>
           <state>MOTOR_RAMPUP_TEST</state>
+          <state>DEBUG</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -967,10 +968,19 @@
     <name>$PROJ_DIR$\..\configblock.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\console.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\controller.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\crtp.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\crtpservice.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\eprintf.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\filter.c</name>
@@ -1003,6 +1013,12 @@
     <name>$PROJ_DIR$\..\mpu6050.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\pid.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\pidctrl.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\pinmux.c</name>
   </file>
   <file>
@@ -1022,6 +1038,9 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\common\timer_if.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\uart_hal.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\common\uart_if.c</name>
