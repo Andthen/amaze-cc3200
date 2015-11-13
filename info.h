@@ -1,5 +1,4 @@
-
-/*
+/**
  *    ||          ____  _ __                           
  * +------+      / __ )(_) /_______________ _____  ___ 
  * | 0xBC |     / __  / / __/ ___/ ___/ __ `/_  / / _ \
@@ -22,23 +21,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
- * system.h - Top level module header file
+ * info.h - Receive information requests and send them back to the client
  */
+#ifndef __INFO_H__
+#define __INFO_H__
+ 
+#include "crtp.h"
 
-#ifndef __SYSTEM_H__
-#define __SYSTEM_H__
+/**
+ * Initialize the information task
+ *
+ */
+void infoInit();
 
-#include <stdbool.h>
+/**
+ * Battery minimum voltage before sending an automatic warning message
+ */
+#define INFO_BAT_WARNING 3.3
 
-void systemInit(void);
-bool systemTest(void);
+#endif //__INFO_H__
 
-void systemLaunch(void);
-
-
-void systemStart();
-void systemWaitStart(void);
-void systemSetCanFly(bool val);
-bool systemCanFly(void);
-
-#endif //__SYSTEM_H__

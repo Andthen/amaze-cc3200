@@ -34,7 +34,7 @@
 #include "param.h"
 //#include "log.h"
 //#include "eskylink.h"
-//#include "uart.h"
+#include "uart_hal.h"
 
 static bool isInit;
 
@@ -60,9 +60,9 @@ void commInit(void)
 #endif
 
   crtpserviceInit();
-  logInit();
+  //logInit();
   consoleInit();
-  paramInit();
+  //paramInit();
   
   //setup CRTP communication channel
   //TODO: check for USB first and prefer USB over radio

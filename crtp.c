@@ -33,28 +33,37 @@
 #include "semphr.h"
 #include "queue.h"
 
-#include "uart.h"
+#include "uart_hal.h"
 
 #include "config.h"
 
 #include "crtp.h"
 #include "info.h"
-#include "cfassert.h"
+#include "debug.h"
+//#include "cfassert.h"
+
+#ifndef TRUE
+#define TRUE true
+#endif
+
+#ifndef FALSE
+#define FALSE false
+#endif
 
 static bool isInit;
 
 static int nopFunc(void);
 static struct crtpLinkOperations nopLink = {
-  .setEnable         = (void*) nopFunc,
-  .sendPacket        = (void*) nopFunc,
-  .receivePacket     = (void*) nopFunc,
+  .setEnable         = (int(*)(_Bool)) (nopFunc),
+  .sendPacket        = (int(*)(CRTPPacket*)) (nopFunc),
+  .receivePacket     = (int(*)(CRTPPacket*)) (nopFunc),
 }; 
 
 static struct crtpLinkOperations *link = &nopLink;
 
-static xQueueHandle  tmpQueue;
+static QueueHandle_t  tmpQueue;
 
-static xQueueHandle  rxQueue;
+static QueueHandle_t  rxQueue;
 
 #define CRTP_NBR_OF_PORTS 16
 #define CRTP_TX_QUEUE_SIZE 20
@@ -63,7 +72,7 @@ static xQueueHandle  rxQueue;
 static void crtpTxTask(void *param);
 static void crtpRxTask(void *param);
 
-static xQueueHandle queues[CRTP_NBR_OF_PORTS];
+static QueueHandle_t queues[CRTP_NBR_OF_PORTS];
 static volatile CrtpCallback callbacks[CRTP_NBR_OF_PORTS];
 
 void crtpInit(void)

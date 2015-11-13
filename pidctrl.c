@@ -32,6 +32,15 @@
 #include "pidctrl.h"
 #include "pid.h"
 
+
+#ifndef TRUE
+#define TRUE true
+#endif
+
+#ifndef FALSE
+#define FALSE false
+#endif
+
 typedef enum {
   pidCtrlValues = 0x00,
 } PIDCrtlNbr;
@@ -54,6 +63,10 @@ void pidCrtlTask(void *param)
   extern PidObject pidRoll;
   extern PidObject pidPitch;
   extern PidObject pidYaw;
+  
+#if defined(ewarm)
+__packed 
+#endif
   struct pidValues
   {
     uint16_t rateKpRP;
@@ -68,7 +81,14 @@ void pidCrtlTask(void *param)
     uint16_t attKpY;
     uint16_t attKiY;
     uint16_t attKdY;
-  }  __attribute__((packed));
+  } 
+
+#if defined(ewarm)
+;
+#endif
+#if defined(gcc) || defined(ccs)
+__attribute__((__packed__));
+#endif
   struct pidValues *pPid;
 
   while (TRUE)

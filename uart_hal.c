@@ -31,7 +31,12 @@
 //#include "stm32f10x_rcc.h"
 //#include "stm32f10x_usart.h"
 //#include "stm32f10x_gpio.h"
-
+#include "hw_types.h"
+#include "hw_memmap.h"
+#include "uart.h"
+#include "rom.h"
+#include "rom_map.h"
+#include "uart_if.h"
 /*FreeRtos includes*/
 #include "FreeRTOS.h"
 #include "task.h"
@@ -44,8 +49,16 @@
 //#include "nvicconf.h"
 #include "config.h"
 
+#ifndef TRUE
+#define TRUE true
+#endif
+
+#ifndef FALSE
+#define FALSE false
+#endif
+
 #define UART_DATA_TIMEOUT_MS 1000
-#define UART_DATA_TIMEOUT_TICKS (UART_DATA_TIMEOUT_MS / portTICK_RATE_MS)
+#define UART_DATA_TIMEOUT_TICKS (UART_DATA_TIMEOUT_MS / portTICK_PERIOD_MS)
 #define CRTP_START_BYTE 0xAA
 #define CCR_ENABLE_SET  ((uint32_t)0x00000001)
 
@@ -58,9 +71,9 @@ static uint8_t dataSize;
 static uint8_t crcIndex = 0;
 static bool    isUartDmaInitialized;
 static enum { notSentSecondStart, sentSecondStart} txState;
-static xQueueHandle packetDelivery;
-static xQueueHandle uartDataDelivery;
-static DMA_InitTypeDef DMA_InitStructureShare;
+static QueueHandle_t packetDelivery;
+static QueueHandle_t uartDataDelivery;
+//static DMA_InitTypeDef DMA_InitStructureShare;
 
 void uartRxTask(void *param);
 
@@ -71,6 +84,25 @@ void uartRxTask(void *param);
 void uartDmaInit(void)
 {
   isUartDmaInitialized = TRUE;
+}
+
+//*****************************************************************************
+//
+//! Interrupt handler for UART interupt 
+//!
+//! \param  None
+//!
+//! \return None
+//!
+//*****************************************************************************
+static void UARTIntHandler()
+{
+
+    uartIsr();
+    //
+    // Clear the UART Interrupt
+    //
+    MAP_UARTIntClear(UARTA0_BASE,UART_INT_DMATX|UART_INT_DMARX);
 }
 
 void uartInit(void)
@@ -95,7 +127,9 @@ void uartInit(void)
   uartDmaInit();
 #else
   // Configure Tx buffer empty interrupt
-
+  MAP_UARTIntRegister(CONSOLE,UARTIntHandler);
+  MAP_UARTIntEnable(CONSOLE,UART_INT_RX);
+  
   vSemaphoreCreateBinary(waitUntilSendDone);
 
   xTaskCreate(uartRxTask, (const signed char * const)"UART-Rx",
@@ -201,32 +235,10 @@ static int uartReceiveCRTPPacket(CRTPPacket *p)
 static portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 static uint8_t rxDataInterrupt;
 
+
 void uartIsr(void)
 {
-  if (USART_GetITStatus(UART_TYPE, USART_IT_TXE))
-  {
-    if (dataIndex < dataSize)
-    {
-      USART_SendData(UART_TYPE, outBuffer[dataIndex] & 0xFF);
-      dataIndex++;
-      if (dataIndex < dataSize - 1 && dataIndex > 1)
-      {
-        outBuffer[crcIndex] = (outBuffer[crcIndex] + outBuffer[dataIndex]) % 0xFF;
-      }
-    }
-    else
-    {
-      USART_ITConfig(UART_TYPE, USART_IT_TXE, DISABLE);
-      xHigherPriorityTaskWoken = pdFALSE;
-      xSemaphoreGiveFromISR(waitUntilSendDone, &xHigherPriorityTaskWoken);
-    }
-  }
-  USART_ClearITPendingBit(UART_TYPE, USART_IT_TXE);
-  if (USART_GetITStatus(UART_TYPE, USART_IT_RXNE))
-  {
-    rxDataInterrupt = USART_ReceiveData(UART_TYPE) & 0xFF;
-    xQueueSendFromISR(uartDataDelivery, &rxDataInterrupt, &xHigherPriorityTaskWoken);
-  }
+
 }
 
 static int uartSendCRTPPacket(CRTPPacket *p)
@@ -242,8 +254,10 @@ static int uartSendCRTPPacket(CRTPPacket *p)
   crcIndex = dataSize - 1;
   outBuffer[crcIndex] = 0;
 
-  USART_SendData(UART_TYPE, outBuffer[0] & 0xFF);
-  USART_ITConfig(UART_TYPE, USART_IT_TXE, ENABLE);
+  //USART_SendData(UART_TYPE, outBuffer[0] & 0xFF);
+  MAP_UARTCharPut(CONSOLE,outBuffer[0] & 0xFF);
+  //USART_ITConfig(UART_TYPE, USART_IT_TXE, ENABLE);
+  MAP_UARTIntEnable(CONSOLE,UART_INT_EOT);
   xSemaphoreTake(waitUntilSendDone, portMAX_DELAY);
   
   return 0;
@@ -268,11 +282,7 @@ struct crtpLinkOperations * uartGetLink()
 
 void uartDmaIsr(void)
 {
-  DMA_ITConfig(UART_DMA_CH, DMA_IT_TC, DISABLE);
-  DMA_ClearITPendingBit(UART_DMA_IT_TC);
-  USART_DMACmd(UART_TYPE, USART_DMAReq_Tx, DISABLE);
-  DMA_Cmd(UART_DMA_CH, DISABLE);
-
+  
 }
 
 void uartSendData(uint32_t size, uint8_t* data)
@@ -281,8 +291,7 @@ void uartSendData(uint32_t size, uint8_t* data)
 
   for(i = 0; i < size; i++)
   {
-    while (!(UART_TYPE->SR & USART_FLAG_TXE));
-    UART_TYPE->DR = (data[i] & 0xFF);
+    MAP_UARTCharPut(CONSOLE,data[i] & 0xFF);
   }
 }
 
@@ -295,16 +304,5 @@ int uartPutchar(int ch)
 
 void uartSendDataDma(uint32_t size, uint8_t* data)
 {
-  if (isUartDmaInitialized)
-  {
-    memcpy(outBuffer, data, size);
-    DMA_InitStructureShare.DMA_BufferSize = size;
-    // Wait for DMA to be free
-    while(UART_DMA_CH->CCR & CCR_ENABLE_SET);
-    DMA_Init(UART_DMA_CH, &DMA_InitStructureShare);
-    // Enable the Transfer Complete interrupt
-    DMA_ITConfig(UART_DMA_CH, DMA_IT_TC, ENABLE);
-    USART_DMACmd(UART_TYPE, USART_DMAReq_Tx, ENABLE);
-    DMA_Cmd(UART_DMA_CH, ENABLE);
-  }
+ 
 }

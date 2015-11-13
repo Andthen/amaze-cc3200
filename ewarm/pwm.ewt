@@ -123,6 +123,9 @@
     <name>$PROJ_DIR$\..\imu.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\info.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\led.c</name>
   </file>
   <file>

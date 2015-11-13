@@ -1,3 +1,4 @@
+
 /**
  *    ||          ____  _ __                           
  * +------+      / __ )(_) /_______________ _____  ___ 
@@ -34,7 +35,7 @@
 #include "crtp.h"
 
 CRTPPacket messageToPrint;
-xSemaphoreHandle synch = NULL;
+SemaphoreHandle_t synch = NULL;
 
 static bool isInit;
 

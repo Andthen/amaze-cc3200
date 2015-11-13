@@ -24,7 +24,7 @@
  *
  * pid.c - implementation of the PID regulator
  */
-#include "stm32f10x_conf.h"
+//#include "stm32f10x_conf.h"
 #include <math.h>
 
 #include "FreeRTOS.h"
@@ -32,6 +32,15 @@
 #include "pid.h"
 #include "led.h"
 #include "motors.h"
+
+#ifndef TRUE
+#define TRUE true
+#endif
+
+#ifndef FALSE
+#define FALSE false
+#endif
+
 
 void pidInit(PidObject* pid, const float desired, const float kp,
              const float ki, const float kd, const float dt)
