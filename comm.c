@@ -89,7 +89,7 @@ bool commTest(void)
   pass &= crtpTest();
   pass &= crtpserviceTest();
   pass &= consoleTest();
-  pass &= paramTest();
+  //pass &= paramTest();
   
   return pass;
 }

@@ -33,6 +33,7 @@
 //#include "stm32f10x_gpio.h"
 #include "hw_types.h"
 #include "hw_memmap.h"
+#include "prcm.h"
 #include "uart.h"
 #include "rom.h"
 #include "rom_map.h"
@@ -48,6 +49,12 @@
 #include "debug.h"
 //#include "nvicconf.h"
 #include "config.h"
+
+#if defined(USE_FREERTOS) || defined(USE_TI_RTOS)
+#include "osi.h"
+#endif
+
+#include "uart_if.h"
 
 #ifndef TRUE
 #define TRUE true
@@ -97,32 +104,15 @@ void uartDmaInit(void)
 //*****************************************************************************
 static void UARTIntHandler()
 {
-
     uartIsr();
-    //
-    // Clear the UART Interrupt
-    //
-    MAP_UARTIntClear(UARTA0_BASE,UART_INT_DMATX|UART_INT_DMARX);
 }
 
 void uartInit(void)
 {
-
- 
-
-#if defined(UART_OUTPUT_TRACE_DATA) || defined(ADC_OUTPUT_RAW_DATA) || defined(IMU_OUTPUT_RAW_DATA_ON_UART)
-  //USART_InitStructure.USART_BaudRate            = 2000000;
-  //USART_InitStructure.USART_Mode                = USART_Mode_Tx;
-#else
-  //USART_InitStructure.USART_BaudRate            = 115200;
-  //USART_InitStructure.USART_Mode                = USART_Mode_Rx | USART_Mode_Tx;
-#endif
-  //USART_InitStructure.USART_WordLength          = USART_WordLength_8b;
-  //USART_InitStructure.USART_StopBits            = USART_StopBits_1;
-  //USART_InitStructure.USART_Parity              = USART_Parity_No ;
-  //USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-  //USART_Init(UART_TYPE, &USART_InitStructure);
-
+  MAP_UARTConfigSetExpClk(CONSOLE,MAP_PRCMPeripheralClockGet(CONSOLE_PERIPH), 
+                  UART_BAUD_RATE, (UART_CONFIG_WLEN_8 | UART_CONFIG_STOP_ONE |
+                   UART_CONFIG_PAR_NONE));
+  
 #if defined(UART_OUTPUT_TRACE_DATA) || defined(ADC_OUTPUT_RAW_DATA)
   uartDmaInit();
 #else
@@ -238,6 +228,34 @@ static uint8_t rxDataInterrupt;
 
 void uartIsr(void)
 {
+  if(UART_INT_EOT == UARTIntStatus(CONSOLE, 1))
+  {
+    if (dataIndex < dataSize)
+    {
+      //USART_SendData(UART_TYPE, outBuffer[dataIndex] & 0xFF);
+      MAP_UARTCharPut(CONSOLE,outBuffer[dataIndex] & 0xFF);
+      dataIndex++;
+      if (dataIndex < dataSize - 1 && dataIndex > 1)
+      {
+        outBuffer[crcIndex] = (outBuffer[crcIndex] + outBuffer[dataIndex]) % 0xFF;
+      }
+    }
+    else
+    {
+      //USART_ITConfig(UART_TYPE, USART_IT_TXE, DISABLE);
+      MAP_UARTIntDisable(CONSOLE,UART_INT_EOT);
+      xHigherPriorityTaskWoken = pdFALSE;
+      xSemaphoreGiveFromISR(waitUntilSendDone, &xHigherPriorityTaskWoken);
+    }
+  }
+  MAP_UARTIntClear(CONSOLE,UART_INT_EOT);
+  
+  if(UART_INT_RX == UARTIntStatus(CONSOLE, 1))
+  {
+    //rxDataInterrupt = USART_ReceiveData(UART_TYPE) & 0xFF;
+    MAP_UARTCharGet(CONSOLE);
+    xQueueSendFromISR(uartDataDelivery, &rxDataInterrupt, &xHigherPriorityTaskWoken);
+  }
 
 }
 

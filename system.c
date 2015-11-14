@@ -44,13 +44,17 @@
 #include "configblock.h"
 //#include "worker.h"
 //#include "freeRTOSdebug.h"
-//#include "uart.h"
+#include "uart_if.h"
+#include "uart_hal.h"
 #include "comm.h"
 #include "stabilizer.h"
 #include "commander.h"
 #include "common.h"
 
 //#include "console.h"
+
+#define APPLICATION_VERSION              "1.1.1"
+#define APP_NAME                         "cc3200 IMU application"
 
 /* Private variable */
 static bool canFly;
@@ -136,19 +140,12 @@ void systemTask(void *arg)
   debugInitTrace();
 #endif
 #ifdef ENABLE_UART
-  InitTerm();
-  //
-  // Clearing the terminal
-  //
-  ClearTerm();
-    
-  //
-  // Diasplay Banner
-  //
-  DisplayBanner(APP_NAME);
+  uartInit();
 #endif
 #endif //ndef USE_UART_CRTP
-
+  uartInit();
+  ClearTerm();
+  DisplayBanner(APP_NAME);
   commInit();
 
   DEBUG_PRINT("Crazyflie is up and running!\n");
@@ -163,7 +160,7 @@ void systemTask(void *arg)
   
   //Test the modules
   pass &= systemTest();
-  //pass &= commTest();
+  pass &= commTest();
   //pass &= commanderTest();
   //pass &= stabilizerTest();
   
