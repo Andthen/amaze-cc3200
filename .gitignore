@@ -6,6 +6,7 @@
 *.elf
 *.cout
 *.pbi
+*.out
 
 #IAR files
 ewarm
