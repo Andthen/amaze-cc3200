@@ -49,6 +49,11 @@
 #include "debug.h"
 //#include "nvicconf.h"
 #include "config.h"
+#include "interrupt.h"
+#include "nvicconf.h"
+#include "ledseq.h"
+
+#include "hw_ints.h"
 
 #if defined(USE_FREERTOS) || defined(USE_TI_RTOS)
 #include "osi.h"
@@ -106,7 +111,8 @@ static void UARTIntHandler()
 {
     uartIsr();
 }
-
+static unsigned long  g_ulTimer0APriority;
+static unsigned long  g_lPriorityGrouping;
 void uartInit(void)
 {
   MAP_UARTConfigSetExpClk(CONSOLE,MAP_PRCMPeripheralClockGet(CONSOLE_PERIPH), 
@@ -117,9 +123,14 @@ void uartInit(void)
   uartDmaInit();
 #else
   // Configure Tx buffer empty interrupt
+  IntPriorityGroupingSet(3);
+  MAP_IntPrioritySet(INT_UARTA0,INT_PRIORITY_LVL_1);
+  g_ulTimer0APriority = MAP_IntPriorityGet(INT_UARTA0);
+  g_lPriorityGrouping = MAP_IntPriorityGroupingGet();
+  
   MAP_UARTIntRegister(CONSOLE,UARTIntHandler);
   MAP_UARTIntEnable(CONSOLE,UART_INT_RX);
-  
+  UARTFIFODisable(CONSOLE);
   vSemaphoreCreateBinary(waitUntilSendDone);
 
   xTaskCreate(uartRxTask, (const signed char * const)"UART-Rx",
@@ -155,8 +166,10 @@ void uartRxTask(void *param)
     if (xQueueReceive(uartDataDelivery, &c, UART_DATA_TIMEOUT_TICKS) == pdTRUE)
     {
       counter++;
-     /* if (counter > 4)
-        ledSetRed(1);*/
+      /*if (counter > 4)
+        ledSetGreen(1);
+      */
+      ledseqRun(LED_GREEN, seq_1shot);
       switch(rxState)
       {
         case waitForFirstStart:
@@ -228,7 +241,7 @@ static uint8_t rxDataInterrupt;
 
 void uartIsr(void)
 {
-  if(UART_INT_EOT == UARTIntStatus(CONSOLE, 1))
+  if(UART_INT_TX == UARTIntStatus(CONSOLE, 1))
   {
     if (dataIndex < dataSize)
     {
@@ -243,17 +256,17 @@ void uartIsr(void)
     else
     {
       //USART_ITConfig(UART_TYPE, USART_IT_TXE, DISABLE);
-      MAP_UARTIntDisable(CONSOLE,UART_INT_EOT);
+      MAP_UARTIntDisable(CONSOLE,UART_INT_TX);
       xHigherPriorityTaskWoken = pdFALSE;
       xSemaphoreGiveFromISR(waitUntilSendDone, &xHigherPriorityTaskWoken);
     }
   }
-  MAP_UARTIntClear(CONSOLE,UART_INT_EOT);
+  MAP_UARTIntClear(CONSOLE,UART_INT_TX);
   
   if(UART_INT_RX == UARTIntStatus(CONSOLE, 1))
   {
     //rxDataInterrupt = USART_ReceiveData(UART_TYPE) & 0xFF;
-    MAP_UARTCharGet(CONSOLE);
+    rxDataInterrupt = MAP_UARTCharGet(CONSOLE) & 0xFF;
     xQueueSendFromISR(uartDataDelivery, &rxDataInterrupt, &xHigherPriorityTaskWoken);
   }
 

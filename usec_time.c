@@ -96,7 +96,7 @@ TimerRefIntHandler(void)
     uminutes = (useconds/60)%60;
     uhours = (useconds/3600)%24;
     
-    UART_PRINT("Timestamp = %lld\n\r", Timestamp);
+    //UART_PRINT("Timestamp = %lld\n\r", Timestamp);
     //GPIO_IF_LedToggle(MCU_RED_LED_GPIO);
     //imu9Read(&gyro, &acc, &mag);
 }
@@ -136,7 +136,7 @@ void initUsecTimer(void)
     //
     MAP_TimerEnable(g_ulBase,TIMER_A);
     /*******/
-    Timer_IF_Start(g_ulRefBase, TIMER_A, 1000);
+    Timer_IF_Start(g_ulRefBase, TIMER_A, 5000);
   /*
   usecTimerHighCount = 0;
 
