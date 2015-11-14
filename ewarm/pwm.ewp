@@ -178,7 +178,7 @@
           <state>USE_UART_CRTP</state>
           <state>ENABLE_UART</state>
           <state>MOTOR_RAMPUP_TEST</state>
-          <state>DEBUG</state>
+          <state>DEBUG1</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
