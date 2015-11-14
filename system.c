@@ -148,8 +148,8 @@ void systemTask(void *arg)
   DisplayBanner(APP_NAME);
   commInit();
 
-  DEBUG_PRINT("Crazyflie is up and running!\n");
-  DEBUG_PRINT("Build %s:%s (%s) %s\n", V_SLOCAL_REVISION,
+  DEBUG_PRINT("Crazyflie is up and running!\n\r");
+  DEBUG_PRINT("Build %s:%s (%s) %s\n\r", V_SLOCAL_REVISION,
               V_SREVISION, V_STAG, (V_MODIFIED)?"MODIFIED":"CLEAN");
   //DEBUG_PRINT("I am 0x%X%X%X and I have %dKB of flash!\n",
               //*((int*)(0x1FFFF7E8+8)), *((int*)(0x1FFFF7E8+4)),
