@@ -1,5 +1,5 @@
 [DebugChecksum]
-Checksum=2109678067
+Checksum=-1675535186
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -23,6 +23,8 @@ ShowArgs=0
 [Disassembly]
 MixedMode=1
 <<<<<<< HEAD
+[struct_types]
+Fmt0=CRTPPacket-size	3	0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -40,9 +42,7 @@ Exclusions=
 mode=0
 [Breakpoints]
 Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\uart_hal.c}.259.7" 1 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\uart_hal.c}.173.7" 1 0 0 0 "" 0 ""
-Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\uart_hal.c}.136.3" 1 0 0 0 "" 0 ""
-Count=3
+Count=1
 [Aliases]
 Count=0
 SuppressDialog=0

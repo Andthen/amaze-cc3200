@@ -154,6 +154,12 @@ void systemTask(void *arg)
   //DEBUG_PRINT("I am 0x%X%X%X and I have %dKB of flash!\n",
               //*((int*)(0x1FFFF7E8+8)), *((int*)(0x1FFFF7E8+4)),
               //*((int*)(0x1FFFF7E8+0)), *((short*)(0x1FFFF7E0)));
+  DEBUG_PRINT("Revision Number: 0x%X \n\rImplementer Code:0x%X\n\rCPUID:0x%X", 
+                             *((int*)(0xE000ED00+0)) & 0x07, 
+                             *((int*)(0xE000ED00+3)) & 0xFF,
+                             *((int*)(0xE000ED00+0)));
+  //0xE000.E000:Core Peripherals base address
+  //offset D00h :CPUID CPU ID Base
 
   //commanderInit();
   //stabilizerInit();

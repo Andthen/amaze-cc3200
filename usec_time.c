@@ -83,13 +83,13 @@ TimerBaseIntHandler(void)
 void
 TimerRefIntHandler(void)
 {
-    static uint64_t Timestamp;
+    //static uint64_t Timestamp;
     //
     // Clear the timer interrupt.
     //
     Timer_IF_InterruptClear(g_ulRefBase);
 
-    Timestamp = usecTimestamp();
+    //Timestamp = usecTimestamp();
     //g_ulRefTimerInts ++;
     useconds++;
     //useconds = useconds%60;
