@@ -1,5 +1,9 @@
 [DebugChecksum]
+<<<<<<< HEAD
 Checksum=-569260548
+=======
+Checksum=-1675535186
+>>>>>>> 7ca15afcacc9ab468acd06239be75c52889a7763
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -23,6 +27,8 @@ ShowArgs=0
 [Disassembly]
 MixedMode=1
 <<<<<<< HEAD
+[struct_types]
+Fmt0=CRTPPacket-size	3	0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
