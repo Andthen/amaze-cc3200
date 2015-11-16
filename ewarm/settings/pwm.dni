@@ -1,6 +1,6 @@
 [DebugChecksum]
 <<<<<<< HEAD
-Checksum=-569260548
+Checksum=-26344839
 =======
 Checksum=-1675535186
 >>>>>>> 7ca15afcacc9ab468acd06239be75c52889a7763
@@ -18,7 +18,7 @@ ByteLimit=50
 LMI_ResetMode=0x00000000
 [LMIFTDI]
 LMIFTDIserialNo=cc3200A
-LMIFTDIfoundProbes=FF:cc3200A:
+LMIFTDIfoundProbes=
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0

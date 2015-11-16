@@ -54,7 +54,7 @@
 //#include "console.h"
 
 #define APPLICATION_VERSION              "1.1.1"
-#define APP_NAME                         "cc3200 IMU application"
+#define APP_NAME                         "IMU application"
 
 /* Private variable */
 static bool canFly;
