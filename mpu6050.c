@@ -1,5 +1,10 @@
 #define DEBUG_MODULE "MPU6050"
 #include "FreeRTOS.h"
+
+// TA: Maybe not so good to bring in these dependencies...
+#include "debug.h"
+#include "eprintf.h"
+
 #include "task.h"
 #include "mpu6050.h"
 #include "i2c_if.h"

@@ -288,7 +288,7 @@ static int uartSendCRTPPacket(CRTPPacket *p)
   //USART_SendData(UART_TYPE, outBuffer[0] & 0xFF);
   MAP_UARTCharPut(CONSOLE,outBuffer[0] & 0xFF);
   //USART_ITConfig(UART_TYPE, USART_IT_TXE, ENABLE);
-  MAP_UARTIntEnable(CONSOLE,UART_INT_EOT);
+  MAP_UARTIntEnable(CONSOLE,UART_INT_TX);
   xSemaphoreTake(waitUntilSendDone, portMAX_DELAY);
   
   return 0;

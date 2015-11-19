@@ -1,6 +1,6 @@
 [DebugChecksum]
 <<<<<<< HEAD
-Checksum=-26344839
+Checksum=-892591291
 =======
 Checksum=-1675535186
 >>>>>>> 7ca15afcacc9ab468acd06239be75c52889a7763
@@ -18,7 +18,7 @@ ByteLimit=50
 LMI_ResetMode=0x00000000
 [LMIFTDI]
 LMIFTDIserialNo=cc3200A
-LMIFTDIfoundProbes=
+LMIFTDIfoundProbes=FF:cc3200A:
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -45,7 +45,13 @@ Exclusions=
 [Disassemble mode]
 mode=0
 [Breakpoints]
-Count=0
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\..\crtp.c}.160.7" 1 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\..\uart_hal.c}.209.11" 1 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\..\system.c}.151.3" 1 0 0 0 "" 0 ""
+Bp3=_ "STD_CODE" "{$PROJ_DIR$\..\console.c}.47.3" 1 0 0 0 "" 0 ""
+Bp4=_ "STD_CODE" "{$PROJ_DIR$\..\crtp.c}.136.5" 1 0 0 0 "" 0 ""
+Bp5=_ "STD_CODE" "{$PROJ_DIR$\..\console.c}.76.7" 1 0 0 0 "" 0 ""
+Count=6
 [Aliases]
 Count=0
 SuppressDialog=0

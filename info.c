@@ -77,7 +77,7 @@ void infoInit()
               configMINIMAL_STACK_SIZE, NULL, /*priority*/2, NULL);
   //crtpInitTaskQueue(crtpInfo);
 }
-/*
+
 void infoTask(void *param)
 {
   CRTPPacket p;
@@ -86,7 +86,7 @@ void infoTask(void *param)
 
   while (TRUE)
   {
-    if (crtpReceivePacketWait(crtpInfo, &p, 1000) == pdTRUE)
+//    if (crtpReceivePacketWait(crtpInfo, &p, 1000) == pdTRUE)
     {
       InfoNbr infoNbr = CRTP_GET_NBR(p.port);
 
@@ -180,4 +180,4 @@ void infoTask(void *param)
     
   }
 }
-*/
+

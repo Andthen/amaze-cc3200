@@ -51,7 +51,7 @@
 #include "commander.h"
 #include "common.h"
 
-//#include "console.h"
+#include "console.h"
 
 #define APPLICATION_VERSION              "1.1.1"
 #define APP_NAME                         "IMU application"

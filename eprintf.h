@@ -29,15 +29,10 @@ typedef int (*putc_t)(int c);
  * @param[in] ... Parameters to print
  * @return the number of character printed
  */
+/*
 int eprintf(putc_t putcf, char * fmt, ...) 
-#if defined(ewarm)
-;
-#endif
-
-#if defined(gcc) || defined(ccs)    
-__attribute__ (( format(printf, 2, 3) ));
-#endif
-
+    __attribute__ (( format(printf, 2, 3) ));
+*/
 /**
  * Light printf implementation
  * @param[in] putcf Putchar function to be used by Printf
